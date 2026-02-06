@@ -1,0 +1,61 @@
+/* index.css — light mode base */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Anton&family=Bricolage+Grotesque:opsz,wght@12..96,200..800&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+
+:root {
+  --bg: #f8fafc;
+  --surface: #ffffff;
+  --border: #e5e7eb;
+
+  --text: #0f172a;
+  --muted: #64748b;
+
+  --primary: #2563eb;
+  --primary-hover: #1d4ed8;
+
+  --danger: #dc2626;
+  --success: #16a34a;
+
+  --radius: 10px;
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.06);
+  --shadow-md: 0 6px 18px rgba(0,0,0,0.08);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html, body, #root {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: "Bricolage Grotesque", sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.5;
+}
+
+a {
+  color: var(--primary);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+button {
+  font-family: inherit;
+}
+
+/* Global text selection style */
+::selection {
+  background-color: #0f172a2f;
+}
+
+/* Firefox specific support */
+::-moz-selection {
+  background-color: #0f172a2f;
+}

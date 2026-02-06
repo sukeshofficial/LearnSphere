@@ -1,0 +1,123 @@
+:root{
+  --bg: #0f1315;
+  --panel: #111417;
+  --muted: #bfc6c9;
+  --accent: #00aaff;
+  --soft-border: rgba(255,255,255,0.04);
+}
+
+/* Layout: make page a column so footer stays compact */
+.dashboard-root{
+  display:flex;
+  flex-direction:column;
+  min-height:100vh;
+  background: linear-gradient(180deg,var(--bg), #0b0d0f 60%);
+  color:#f4f6f7;
+  font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+}
+
+/* main content grows to fill available space */
+.dashboard-main{
+  flex:1;
+}
+
+/* HERO */
+.hero{
+  display:flex;
+  gap: 24px;
+  align-items:flex-start;
+  padding: 28px 34px;
+  border-bottom: 1px solid var(--soft-border);
+}
+.hero-left{ max-width: 68ch; }
+.location-pill{
+  display:inline-block;
+  background: var(--panel);
+  padding: 8px 12px;
+  border-radius: 22px;
+  color: var(--muted);
+  font-weight:600;
+}
+.hero-title{
+  margin:10px 0 6px;
+  font-size: 30px;
+  line-height:1.05;
+}
+.hero-sub{ margin:0; color: var(--muted); }
+
+/* Book venues area */
+.book-venues{
+  padding: 20px 34px;
+  border-bottom:1px solid var(--soft-border);
+  position:relative;
+}
+
+/* no-venues card (centered and clean) */
+.no-venues-card{
+  max-width:720px;
+  margin:18px auto 0;
+  padding:18px;
+  border-radius:10px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.12));
+  border:1px solid rgba(255,255,255,0.03);
+  text-align:center;
+  color: #dfe7e9;
+}
+.no-venues-card h3{ margin:0 0 6px; }
+.no-venues-card p{ margin:0 0 14px; color:var(--muted); }
+.no-venues-actions{ display:flex; gap:12px; justify-content:center; }
+
+/* CTA buttons */
+.btn-primary{
+  padding:10px 14px;
+  border-radius:8px;
+  background: var(--accent);
+  color:#fff;
+  border:none;
+  cursor:pointer;
+  font-weight:700;
+}
+.btn-outline{
+  padding:10px 14px;
+  border-radius:8px;
+  background:transparent;
+  color:#d6d6d6;
+  border:1px solid rgba(255,255,255,0.06);
+  cursor:pointer;
+}
+
+/* Popular sports */
+.popular-sports{ padding: 24px 34px; }
+.popular-header h3{ margin:0 0 12px; font-size:18px; color:#f1f3f4; }
+
+/* sports strip - white panel like mock */
+.sports-strip{
+  display:flex;
+  gap:16px;
+  padding:16px;
+  background:#fff;
+  color:#000;
+  border-radius: 12px;
+  box-shadow: 0 10px 28px rgba(2,6,8,0.35);
+  overflow:auto;
+}
+
+/* small sport card */
+.sport-card{ width:140px; height:160px; border-radius:10px; overflow:hidden; display:flex; flex-direction:column; justify-content:flex-end; cursor:pointer; }
+.sport-img{ flex:1 1 auto; background-size:cover; background-position:center; min-height:90px; }
+.sport-label{ padding:10px; background: rgba(0,0,0,0.45); color:#fff; font-weight:700; text-align:center; }
+
+/* footer small */
+.dashboard-footer{
+  padding:18px;
+  text-align:center;
+  color:#a9b0b3;
+  border-top:1px solid var(--soft-border);
+  background: linear-gradient(180deg, rgba(255,255,255,0.01), transparent);
+}
+
+/* responsive tweaks */
+@media (max-width:900px){
+  .hero{ flex-direction:column; padding:18px; }
+  .sports-strip{ padding:12px; gap:12px; }
+}

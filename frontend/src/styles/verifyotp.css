@@ -1,0 +1,126 @@
+/* dark aesthetic — tweak to match your mock exactly */
+.verify-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #0b0b0b;
+  color: #dfe6dc;
+  font-family: "Courier New", monospace;
+}
+
+.verify-container {
+  width: 100%;
+  max-width: 520px;
+  padding: 48px;
+  border-radius: 14px;
+  box-shadow: 0 0 0 2px rgba(255,255,255,0.03);
+  background: rgba(12,12,12,0.6);
+  text-align: center;
+}
+
+.brand {
+  font-size: 20px;
+  letter-spacing: 2px;
+  margin: 0 0 8px;
+  color: #ffffff;
+}
+
+.title {
+  margin: 8px 0 28px;
+  font-size: 18px;
+  color: #fff;
+}
+
+.hint {
+  color: #37a854; /* green hint like mock */
+  margin-bottom: 26px;
+  font-size: 13px;
+}
+
+.hint .email {
+  display: block;
+  margin-top: 6px;
+  color: #8ad08a;
+  font-weight: 600;
+}
+
+.otp-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.otp-row {
+  display: flex;
+  gap: 14px;
+  justify-content: center;
+  margin-bottom: 18px;
+}
+
+.otp-input {
+  width: 52px;
+  height: 52px;
+  border-radius: 8px;
+  border: 2px solid rgba(255,255,255,0.18);
+  background: transparent;
+  color: #fff;
+  text-align: center;
+  font-size: 22px;
+  outline: none;
+}
+
+.otp-input:focus {
+  border-color: #ffffff;
+  box-shadow: 0 0 0 3px rgba(255,255,255,0.03);
+}
+
+.primary-btn {
+  margin-top: 12px;
+  padding: 12px 28px;
+  border-radius: 8px;
+  border: 2px solid rgba(255,255,255,0.3);
+  background: transparent;
+  color: #fff;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.primary-btn:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+.links-row {
+  margin-top: 18px;
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.link-btn {
+  background: none;
+  border: none;
+  color: #8ad0ff;
+  text-decoration: underline;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+.link-btn.secondary {
+  color: #9bd6a4;
+}
+
+.error {
+  color: #ff6b6b;
+  margin-bottom: 8px;
+  font-size: 13px;
+}
+
+.info {
+  color: #bfe7c9;
+  margin-bottom: 8px;
+  font-size: 13px;
+}
