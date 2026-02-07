@@ -12,6 +12,7 @@ import authRoutes from "./routes/auth.routes.js";
 import profileRoutes from "./routes/profile.routes.js";
 import usersRoutes from "./routes/users.routes.js";
 import courseRoutes from "./routes/course.routes.js";
+import lessonRoutes from "./routes/lesson.routes.js";
 import authMiddleware from "./middleware/auth.middleware.js";
 
 dotenv.config();
@@ -35,6 +36,7 @@ app.use("/uploads", express.static("uploads"));
 app.use("/api/profile", profileRoutes);
 app.use("/api/users", usersRoutes);
 app.use("/api/courses", courseRoutes);
+app.use("/api", lessonRoutes); // Prefixed with /api, routes handle nested paths
 
 // test route
 app.get("/api/health", (req, res) => {
