@@ -3,6 +3,8 @@ import pool from "./db.js";
 export const runMigrations = async () => {
   try {
     // Standard Columns for the User
+    await pool.query("BEGIN");
+
     await pool.query(`
       ALTER TABLE users
       ADD COLUMN IF NOT EXISTS username VARCHAR(50) UNIQUE,
@@ -54,10 +56,8 @@ export const runMigrations = async () => {
     await pool.query(`
       ALTER TABLE users
       ADD CONSTRAINT role_check
-      CHECK (role IN ('user','admin','moderator','staff'));
+      CHECK (role IN ('user', 'admin', 'moderator', 'staff', 'instructor'));
   `);
-
-    await pool.query("BEGIN");
 
     // ---------- EXTENSIONS ----------
     await pool.query(`
@@ -67,13 +67,13 @@ export const runMigrations = async () => {
     // ---------- ENUMS ----------
     await pool.query(`
     DO $$ BEGIN
-      CREATE TYPE visibility_enum AS ENUM ('EVERYONE','ENROLLED','PRIVATE');
+      CREATE TYPE visibility_enum AS ENUM ('EVERYONE','SIGNED_IN');
     EXCEPTION WHEN duplicate_object THEN null; END $$;
     `);
 
     await pool.query(`
     DO $$ BEGIN
-      CREATE TYPE access_rule_enum AS ENUM ('OPEN','INVITE_ONLY','PAID');
+      CREATE TYPE access_rule_enum AS ENUM ('OPEN','INVITE','PAID');
     EXCEPTION WHEN duplicate_object THEN null; END $$;
     `);
 
@@ -94,6 +94,19 @@ export const runMigrations = async () => {
       CREATE TYPE quiz_status_enum AS ENUM ('IN_PROGRESS','SUBMITTED','GRADED');
     EXCEPTION WHEN duplicate_object THEN null; END $$;
     `);
+
+    await pool.query(`
+      DO $$
+      BEGIN
+        IF NOT EXISTS (
+          SELECT 1 FROM pg_enum
+          WHERE enumlabel = 'SIGNED_IN'
+          AND enumtypid = 'visibility_enum'::regtype
+        ) THEN
+          ALTER TYPE visibility_enum ADD VALUE 'SIGNED_IN';
+        END IF;
+      END$$;
+    `)
 
     // ---------- COURSES ----------
     await pool.query(`
@@ -222,6 +235,12 @@ export const runMigrations = async () => {
       review_text TEXT,
       created_at TIMESTAMPTZ DEFAULT now()
     );
+    `);
+
+    await pool.query(`
+      UPDATE users SET role='user' WHERE role IS NULL;
+      ALTER TABLE users
+      ALTER COLUMN role SET NOT NULL;
     `);
 
     await pool.query("COMMIT");
