@@ -1,4 +1,5 @@
 import { Routes, Route, useLocation } from "react-router-dom";
+import { useAuth } from "./context/useAuth";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import VerifyOtp from "./pages/VerifyOtp";
@@ -13,7 +14,22 @@ import PublicUserProfile from "./pages/PublicUserProfile";
 import CoursesKanbanPage from "./pages/CoursesKanbanPage";
 import ReportingPage from "./pages/ReportingPage";
 import CourseEditPage from "./pages/CourseEditPage";
+import UserCoursesPage from "./pages/UserCoursesPage";
 import "./App.css";
+
+function CoursesRouteWrapper() {
+  const { user } = useAuth();
+  // Check if user is admin
+  if (user && (user.role === 'admin' || user.is_superadmin)) {
+    return (
+      <ProtectedRoute>
+        <CoursesKanbanPage />
+      </ProtectedRoute>
+    );
+  }
+  // Otherwise show user view (public or enrolled user)
+  return <UserCoursesPage />;
+}
 
 function AppWrapper() {
   const location = useLocation();
@@ -40,14 +56,10 @@ function AppWrapper() {
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/reset-password/:token" element={<ResetPassword />} />
         <Route path="/profile" element={<Profile />} />
-        <Route
-          path="/courses"
-          element={
-            <ProtectedRoute>
-              <CoursesKanbanPage />
-            </ProtectedRoute>
-          }
-        />
+
+        {/* Dynamic Courses Route */}
+        <Route path="/courses" element={<CoursesRouteWrapper />} />
+
         <Route
           path="/courses/new"
           element={
