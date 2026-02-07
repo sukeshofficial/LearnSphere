@@ -12,7 +12,7 @@ import authRoutes from "./routes/auth.routes.js";
 import profileRoutes from "./routes/profile.routes.js";
 import usersRoutes from "./routes/users.routes.js";
 import authMiddleware from "./middleware/auth.middleware.js";
-
+import coursesRoutes from "./routes/courses.routes.js"
 dotenv.config();
 
 const app = express();
@@ -33,6 +33,8 @@ app.use("/api/auth", authRoutes);
 app.use("/uploads", express.static("uploads"));
 app.use("/api/profile", profileRoutes);
 app.use("/api/users", usersRoutes);
+app.use("/api/courses", coursesRoutes);
+
 
 // test route
 app.get("/api/health", (req, res) => {
