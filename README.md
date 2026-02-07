@@ -1,7 +1,7 @@
 ## Clone the Repository
 
 ```bash
-git clone https://github.com/sukeshofficial/odoo-final.git .
+git clone https://github.com/sukeshofficial/LearnSphere.git .
 ````
 
 ---
