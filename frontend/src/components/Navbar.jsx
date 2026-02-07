@@ -35,10 +35,9 @@ export default function Navbar() {
 
   const navItems = [
     { label: "Dashboard", to: "/" },
-    { label: "Venues", to: "/venues" },
-    { label: "Bookings", to: "/bookings" },
-    { label: "Profile", to: "/profile" },
-    { label: "Contact", to: "/contact" },
+    { label: "Courses", to: "/courses" },
+    { label: "Reporting", to: "/reporting" },
+    { label: "Settings", to: "/settings" },
   ];
 
   return (
@@ -53,7 +52,7 @@ export default function Navbar() {
               className="logo-img"
               onClick={() => navigate("/")}
             />
-            <span className="logo-text">ForgeGrid</span>
+            <span className="logo-text">LearnSphere</span>
           </div>
 
           {/* Desktop Menu */}
