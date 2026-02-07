@@ -18,6 +18,7 @@ import enrollmentRoutes from "./routes/enrollment.routes.js";
 import reviewRoutes from "./routes/review.routes.js";
 import progressRoutes from "./routes/progress.routes.js";
 import reportingRoutes from "./routes/reporting.routes.js";
+import uploadRoutes from "./routes/upload.routes.js";
 import authMiddleware from "./middleware/auth.middleware.js";
 
 dotenv.config();
@@ -47,6 +48,7 @@ app.use("/api", reviewRoutes);
 app.use("/api", progressRoutes);
 app.use("/api", quizRoutes);
 app.use("/api", reportingRoutes);
+app.use("/api", uploadRoutes);
 
 // test route
 app.get("/api/health", (req, res) => {

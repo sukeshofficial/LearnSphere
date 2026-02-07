@@ -12,10 +12,10 @@ import Navbar from "./components/Navbar";
 import PublicProfile from "./pages/PublicProfile";
 import PublicUserProfile from "./pages/PublicUserProfile";
 import CoursesKanbanPage from "./pages/CoursesKanbanPage";
-import ReportingPage from "./pages/ReportingPage";
 import CourseEditPage from "./pages/CourseEditPage";
 import UserCoursesPage from "./pages/UserCoursesPage";
 import "./App.css";
+import "./styles/dashboard.css";
 
 function CoursesRouteWrapper() {
   const { user } = useAuth();
@@ -73,14 +73,6 @@ function AppWrapper() {
           element={
             <ProtectedRoute>
               <CourseEditPage />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/reporting"
-          element={
-            <ProtectedRoute>
-              <ReportingPage />
             </ProtectedRoute>
           }
         />

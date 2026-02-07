@@ -11,12 +11,19 @@ const storage = multer.diskStorage({
 
 const upload = multer({
   storage,
-  limits: { fileSize: 5 * 1024 * 1024 }, // 5MB
+  limits: { fileSize: 10 * 1024 * 1024 }, // Increase to 10MB
   fileFilter: (req, file, cb) => {
-    if (!file.mimetype.startsWith("image/")) {
-      cb(new Error("Only image files allowed"));
+    // Allow images, pdfs, and common document types
+    const allowedMimes = [
+      "image/jpeg", "image/png", "image/gif", "image/webp",
+      "application/pdf", "application/msword",
+      "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+    ];
+    if (allowedMimes.includes(file.mimetype)) {
+      cb(null, true);
+    } else {
+      cb(new Error("File type not supported. Please upload an image or document (PDF/Word)."));
     }
-    cb(null, true);
   },
 });
 

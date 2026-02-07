@@ -1,4 +1,5 @@
 import React from "react";
+import "../styles/tabs.css";
 
 const CourseTabs = ({ activeTab, onTabChange }) => {
     const tabs = [

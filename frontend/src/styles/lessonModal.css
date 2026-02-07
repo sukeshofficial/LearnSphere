@@ -1,0 +1,146 @@
+.lesson-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(15, 23, 42, 0.7);
+  backdrop-filter: blur(8px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  animation: fadeIn 0.3s ease-out;
+}
+
+.lesson-modal-container {
+  background: white;
+  width: 90%;
+  max-width: 800px;
+  max-height: 90vh;
+  border-radius: 24px;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  position: relative;
+}
+
+.lesson-modal-header {
+  padding: 1.5rem 2rem;
+  border-bottom: 1px solid #f1f5f9;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.lesson-modal-header h2 {
+  margin: 0;
+  font-size: 1.25rem;
+  color: #1e293b;
+  font-weight: 700;
+}
+
+.content-title-display {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #6366f1;
+  margin-top: 0.5rem;
+}
+
+.close-modal-btn {
+  background: none;
+  border: none;
+  font-size: 2rem;
+  line-height: 1;
+  color: #94a3b8;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.close-modal-btn:hover {
+  color: #475569;
+}
+
+.lesson-modal-body {
+  padding: 0;
+  flex: 1;
+  overflow-y: auto;
+}
+
+.lesson-modal-footer {
+  padding: 1.5rem 2rem;
+  border-top: 1px solid #f1f5f9;
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  background: #f8fafc;
+}
+
+.modal-btn {
+  padding: 0.75rem 1.5rem;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  border: 1px solid transparent;
+}
+
+.modal-btn.secondary {
+  background: white;
+  border-color: #e2e8f0;
+  color: #475569;
+}
+
+.modal-btn.secondary:hover {
+  background: #f1f5f9;
+  border-color: #cbd5e1;
+}
+
+.modal-btn.primary {
+  background: #6366f1;
+  color: white;
+  box-shadow: 0 4px 6px -1px rgba(99, 102, 241, 0.4);
+}
+
+.modal-btn.primary:hover {
+  background: #4f46e5;
+  transform: translateY(-1px);
+}
+
+.form-field-group {
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.field-label {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #475569;
+  margin-bottom: 0.5rem;
+}
+
+.text-input, .select-input, .textarea-input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+  font-size: 1rem;
+  color: #1e293b;
+  transition: all 0.2s;
+}
+
+.text-input:focus, .select-input:focus, .textarea-input:focus {
+  outline: none;
+  border-color: #6366f1;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}

@@ -5,6 +5,7 @@ import "../styles/dashboard-template.css";
 import { searchUser } from "../api/userProfile";
 import { Typewriter } from "react-simple-typewriter";
 import searchIcon from "../assets/search.svg";
+import profilePlaceholder from "../assets/avatar-placeholder.png";
 
 
 export default function Dashboard() {

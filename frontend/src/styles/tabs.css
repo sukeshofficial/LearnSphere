@@ -1,68 +1,49 @@
 .course-tabs-nav {
   display: flex;
-  gap: 1rem;
-  margin-bottom: 2rem;
-  border-bottom: 1px solid #e2e8f0;
-  padding-bottom: 0.5rem;
+  gap: 1.5rem;
+  padding: 0 2rem;
+  border-bottom: 2px solid #f1f5f9;
 }
 
 .tab-btn {
-  padding: 0.8rem 1.5rem;
-  border: none;
-  background: none;
-  font-size: 1rem;
+  padding: 1rem 0;
   font-weight: 600;
+  font-size: 1rem;
   color: #64748b;
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
   cursor: pointer;
-  position: relative;
-  transition: all 0.2s ease;
-  border-radius: 8px 8px 0 0;
+  transition: all 0.2s;
 }
 
 .tab-btn:hover {
   color: #475569;
-  background: #f1f5f9;
 }
 
 .tab-btn.active {
   color: #6366f1;
-}
-
-.tab-btn.active::after {
-  content: '';
-  position: absolute;
-  bottom: -0.6rem;
-  left: 0;
-  width: 100%;
-  height: 3px;
-  background: #6366f1;
-  border-radius: 3px;
+  border-bottom-color: #6366f1;
 }
 
 .tab-content {
-  background: white;
-  padding: 2rem;
-  border-radius: 0 0 24px 24px;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.05);
-  min-height: 400px;
+  padding: 2.5rem;
 }
 
-.course-description-area {
-  width: 100%;
-  padding: 1rem;
-  border: 1px solid #e2e8f0;
-  border-radius: 12px;
-  font-family: inherit;
-  font-size: 1rem;
-  resize: vertical;
-}
-
+/* Helper classes for tabs content */
 .options-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 2rem;
 }
 
-.mt-2rem {
-  margin-top: 2rem;
+.course-description-area {
+  width: 100%;
+  min-height: 300px;
+  padding: 1.5rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  font-size: 1rem;
+  color: #1e293b;
+  resize: vertical;
 }

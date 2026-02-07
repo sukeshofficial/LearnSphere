@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import "../styles/lessonTable.css";
 
 const LessonsTable = ({ lessons, onEdit, onDelete }) => {
     const [openMenuId, setOpenMenuId] = useState(null);

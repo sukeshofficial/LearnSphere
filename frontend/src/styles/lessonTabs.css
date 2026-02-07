@@ -1,0 +1,79 @@
+.lesson-tabs-container {
+  display: flex;
+  border-bottom: 1px solid #e2e8f0;
+  padding: 0 2rem;
+  background: white;
+}
+
+.lesson-tab-item {
+  padding: 1rem 1.5rem;
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: #64748b;
+  cursor: pointer;
+  border-bottom: 3px solid transparent;
+  transition: all 0.2s;
+  background: none;
+  border-top: none;
+  border-left: none;
+  border-right: none;
+}
+
+.lesson-tab-item:hover {
+  color: #475569;
+  background: #f8fafc;
+}
+
+.lesson-tab-item.active {
+  color: #ef4444; /* Mockup shows a light red/pink for active tab */
+  border-bottom-color: #ef4444;
+}
+
+.category-row {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  padding: 1rem 0;
+}
+
+.category-option {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  font-weight: 500;
+  color: #475569;
+}
+
+.category-radio {
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  border: 2px solid #cbd5e1;
+  border-radius: 4px;
+  cursor: pointer;
+  position: relative;
+  transition: all 0.2s;
+}
+
+.category-radio:checked {
+  background: #6366f1;
+  border-color: #6366f1;
+}
+
+.category-radio:checked::after {
+  content: "✓";
+  color: white;
+  font-size: 12px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.dynamic-fields-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  align-items: flex-end;
+}
