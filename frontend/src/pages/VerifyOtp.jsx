@@ -165,7 +165,7 @@ export default function VerifyOtp() {
   return (
     <div className="verify-page">
       <div className="verify-container">
-        <h1 className="brand">QUICKCOURT</h1>
+        <h1 className="brand">LEARNSPHERE</h1>
         <h2 className="title">🔒 VERIFY YOUR EMAIL</h2>
 
         <p className="hint">

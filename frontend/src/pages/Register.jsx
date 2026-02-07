@@ -11,9 +11,28 @@ export default function Register() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [profilePhotoFile, setProfilePhotoFile] = useState(null);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
+
+  // Password validation function
+  const isValidPassword = (password) => {
+    const minLength = password.length >= 8;
+    const hasUppercase = /[A-Z]/.test(password);
+    const hasLowercase = /[a-z]/.test(password);
+    const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(password);
+
+    return minLength && hasUppercase && hasLowercase && hasSpecialChar;
+  };
+
+
+  // Password rule checks
+  const isPasswordStrong = isValidPassword(password);
+  const isPasswordMismatch =
+    confirmPassword.length > 0 && password !== confirmPassword;
+
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -85,6 +104,27 @@ export default function Register() {
           required
         />
 
+        <label>Re-enter Password</label>
+        <input
+          type="password"
+          value={confirmPassword}
+          onChange={(e) => setConfirmPassword(e.target.value)}
+          required
+        />
+
+        {isPasswordMismatch && (
+          <p className="error">
+            Passwords do not match
+          </p>
+        )}
+
+        {!isPasswordStrong && (
+          <p className="error">
+            Password  must contain a small case, a large case and
+            a special character and length should be in more then 8 charachters.
+          </p>
+        )}
+
         <div className="reg-footer auth-footer">
           <span>Already have an account?</span>
           <Link to="/login" className="auth-link">
@@ -92,7 +132,7 @@ export default function Register() {
           </Link>
         </div>
 
-        <button type="submit" disabled={loading}>
+        <button type="submit" disabled={!isPasswordStrong || isPasswordMismatch}>
           {loading ? "Creating..." : "Register"}
         </button>
       </form>
