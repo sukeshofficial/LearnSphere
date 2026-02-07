@@ -43,20 +43,35 @@ class CourseService {
         const offset = (page - 1) * limit;
 
         let queryText = `
-      SELECT id, title, short_description, tags, visibility, 
-             access_rule, price_cents, is_published, created_by, created_at, total_views
-      FROM courses
-      WHERE is_published = true
+      SELECT c.id, c.title, c.short_description, c.tags, c.visibility, 
+             c.access_rule, c.price_cents, c.is_published, c.created_by, c.created_at, c.total_views,
+             COALESCE(avg_rating.rating, 0) as average_rating,
+             COALESCE(avg_rating.count, 0) as review_count
+      FROM courses c
+      LEFT JOIN (
+          SELECT course_id, AVG(rating) as rating, COUNT(*) as count
+          FROM reviews
+          GROUP BY course_id
+      ) avg_rating ON c.id = avg_rating.course_id
     `;
 
         const values = [];
         let paramCount = 1;
 
-        // Visibility rules
-        if (!userId) {
-            queryText += ` AND visibility = 'EVERYONE'`;
+        if (userId) {
+            queryText += ` WHERE (c.is_published = true OR c.created_by = $${paramCount})`;
+            values.push(userId);
+            paramCount++;
         } else {
-            queryText += ` AND (visibility = 'EVERYONE' OR visibility = 'SIGNED_IN')`;
+            queryText += ` WHERE c.is_published = true`;
+        }
+
+        // Visibility rules (for published courses or owner courses, though owner sees everything)
+        if (!userId) {
+            queryText += ` AND c.visibility = 'EVERYONE'`;
+        } else {
+            // Owner sees everything, others see based on visibility
+            queryText += ` AND (c.created_by = $1 OR c.visibility = 'EVERYONE' OR c.visibility = 'SIGNED_IN')`;
         }
 
         if (q) {
@@ -97,7 +112,16 @@ class CourseService {
         await pool.query("BEGIN");
         try {
             const { rows } = await pool.query(
-                "SELECT * FROM courses WHERE id = $1",
+                `SELECT c.*, 
+                    COALESCE(avg_rating.rating, 0) as average_rating,
+                    COALESCE(avg_rating.count, 0) as review_count
+                 FROM courses c
+                 LEFT JOIN (
+                     SELECT course_id, AVG(rating) as rating, COUNT(*) as count
+                     FROM reviews
+                     GROUP BY course_id
+                 ) avg_rating ON c.id = avg_rating.course_id
+                 WHERE c.id = $1`,
                 [id]
             );
 

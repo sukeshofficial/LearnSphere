@@ -112,6 +112,70 @@ class LessonController {
             return res.status(500).json({ error: "Failed to fetch lessons" });
         }
     };
+
+    // ---------- ATTACHMENTS ----------
+    addAttachment = async (req, res) => {
+        try {
+            const { lessonId } = req.params;
+            const { title, file_url, file_size, file_type } = req.body;
+
+            if (!title || !file_url) {
+                return res.status(400).json({ error: "Title and file_url are required" });
+            }
+
+            const lesson = await lessonService.getLessonById(lessonId);
+            if (!lesson) return res.status(404).json({ error: "Lesson not found" });
+
+            const course = await lessonService.getCourseForOwnershipCheck(lesson.course_id);
+            const isOwner = course.created_by === req.user.id;
+            const isAdmin = (req.user.role || "").toLowerCase() === "admin" || req.user.is_super_admin;
+
+            if (!isOwner && !isAdmin) {
+                return res.status(403).json({ error: "Not authorized to add attachments" });
+            }
+
+            const attachment = await lessonService.addAttachment(lessonId, { title, file_url, file_size, file_type });
+            return res.status(201).json(attachment);
+        } catch (error) {
+            console.error("Add Attachment Error:", error);
+            return res.status(500).json({ error: "Failed to add attachment" });
+        }
+    };
+
+    getAttachments = async (req, res) => {
+        try {
+            const { lessonId } = req.params;
+            const attachments = await lessonService.getAttachmentsByLesson(lessonId);
+            return res.status(200).json({ attachments });
+        } catch (error) {
+            console.error("Get Attachments Error:", error);
+            return res.status(500).json({ error: "Failed to fetch attachments" });
+        }
+    };
+
+    deleteAttachment = async (req, res) => {
+        try {
+            const { id } = req.params;
+            const attachment = await lessonService.getAttachmentById(id);
+            if (!attachment) return res.status(404).json({ error: "Attachment not found" });
+
+            const lesson = await lessonService.getLessonById(attachment.lesson_id);
+            const course = await lessonService.getCourseForOwnershipCheck(lesson.course_id);
+
+            const isOwner = course.created_by === req.user.id;
+            const isAdmin = (req.user.role || "").toLowerCase() === "admin" || req.user.is_super_admin;
+
+            if (!isOwner && !isAdmin) {
+                return res.status(403).json({ error: "Not authorized to delete this attachment" });
+            }
+
+            await lessonService.deleteAttachment(id);
+            return res.status(204).send();
+        } catch (error) {
+            console.error("Delete Attachment Error:", error);
+            return res.status(500).json({ error: "Failed to delete attachment" });
+        }
+    };
 }
 
 export default new LessonController();

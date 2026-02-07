@@ -40,16 +40,20 @@ export const requireRole = (...roles) => {
     const userRole = (req.user.role || "").toLowerCase();
     const allowedRoles = roles.map(r => r.toLowerCase());
 
+    // DEBUG LOG
     console.log(`[Role] Checking roles: Required=${JSON.stringify(allowedRoles)}, UserRole=${userRole}, IsSuperAdmin=${req.user.is_super_admin}`);
 
     if (req.user.is_super_admin) {
+      console.log("[Role] Access granted via SuperAdmin");
       return next();
     }
 
     if (allowedRoles.includes(userRole)) {
+      console.log(`[Role] Access granted for role: ${userRole}`);
       return next();
     }
 
+    console.log(`[Role] Access denied: UserRole=${userRole} not in ${JSON.stringify(allowedRoles)}`);
     return res.status(403).json({ error: "Forbidden: Access denied" });
   };
 };

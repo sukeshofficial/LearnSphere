@@ -10,6 +10,7 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import Navbar from "./components/Navbar";
 import PublicProfile from "./pages/PublicProfile";
 import PublicUserProfile from "./pages/PublicUserProfile";
+import CoursesKanbanPage from "./pages/CoursesKanbanPage";
 import "./App.css";
 
 function AppWrapper() {
@@ -37,6 +38,14 @@ function AppWrapper() {
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/reset-password/:token" element={<ResetPassword />} />
         <Route path="/profile" element={<Profile />} />
+        <Route
+          path="/courses"
+          element={
+            <ProtectedRoute>
+              <CoursesKanbanPage />
+            </ProtectedRoute>
+          }
+        />
         <Route path="/profile/public" element={<PublicProfile />} />
         <Route path="/u/:username" element={<PublicUserProfile />} />
       </Routes>

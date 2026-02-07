@@ -1,0 +1,33 @@
+.view-toggle {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+  margin-bottom: 20px;
+}
+
+.toggle-btn {
+  background: #f8f9fa;
+  border: 1px solid #dee2e6;
+  border-radius: 4px;
+  padding: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+
+.toggle-btn.active {
+  background: #007bff;
+  color: white;
+  border-color: #007bff;
+}
+
+.toggle-btn:hover:not(.active) {
+  background: #e9ecef;
+}
+
+.toggle-icon {
+  width: 20px;
+  height: 20px;
+}

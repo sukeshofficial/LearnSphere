@@ -96,13 +96,6 @@ class CourseController {
             const is_published = req.body?.is_published;
 
             if (typeof is_published !== "boolean") {
-                return res.status(400).json({
-                    error: "is_published boolean required"
-                });
-            }
-
-
-            if (typeof is_published !== "boolean") {
                 return res.status(400).json({ error: "is_published must be a boolean" });
             }
 

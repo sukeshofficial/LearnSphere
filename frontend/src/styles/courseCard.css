@@ -1,0 +1,164 @@
+.course-card {
+  background: white;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  transition: box-shadow 0.3s;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.course-card:hover {
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.course-card.list-view {
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 12px;
+}
+
+.course-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #1a1a1a;
+  margin: 0;
+  text-decoration: none;
+}
+
+.course-title:hover {
+  color: #007bff;
+}
+
+.course-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.tag {
+  background: #f0f2f5;
+  color: #65676b;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.remove-tag {
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 10px;
+}
+
+.course-stats {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 16px;
+  color: #65676b;
+  font-size: 0.875rem;
+}
+
+.stat-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.stat-label {
+  font-weight: 500;
+  font-size: 0.75rem;
+}
+
+.stat-value {
+  color: #1a1a1a;
+  font-weight: 600;
+}
+
+.card-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: auto;
+}
+
+.list-view .card-actions {
+  margin-top: 0;
+}
+
+.btn-icon {
+  padding: 6px 16px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  background: white;
+  cursor: pointer;
+  font-size: 0.875rem;
+  transition: all 0.2s;
+}
+
+.btn-icon:hover {
+  background: #f8f9fa;
+  border-color: #bbb;
+}
+
+.btn-publish {
+  color: #28a745;
+  border-color: #28a745;
+}
+
+.btn-publish:hover {
+  background: #e8f5e9;
+  border-color: #28a745;
+}
+
+.btn-unpublish {
+  color: #ffc107;
+  border-color: #ffc107;
+}
+
+.btn-unpublish:hover {
+  background: #fff8e1;
+  border-color: #ffc107;
+}
+
+.btn-delete {
+  color: #dc3545;
+  border-color: #dc3545;
+}
+
+.btn-delete:hover {
+  background: #fdf2f2;
+  border-color: #dc3545;
+}
+
+.publish-badge {
+  position: absolute;
+  top: 10px;
+  right: -5px;
+  background: #fff;
+  border: 1px solid #ccc;
+  padding: 4px 20px;
+  transform: rotate(35deg);
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #28a745;
+  box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
+}
+
+.list-view .publish-badge {
+  position: static;
+  transform: none;
+  margin-left: auto;
+}

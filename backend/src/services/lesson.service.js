@@ -9,7 +9,7 @@ class LessonService {
             errors.push("Title is required.");
         }
 
-        const validTypes = ["VIDEO", "DOCUMENT", "IMAGE", "LINK"];
+        const validTypes = ["VIDEO", "DOCUMENT", "IMAGE", "LINK", "QUIZ"];
         if (!type || !validTypes.includes(type)) {
             errors.push(`Type must be one of: ${validTypes.join(", ")}`);
         }
@@ -127,6 +127,34 @@ class LessonService {
             "SELECT id, created_by, visibility, is_published FROM courses WHERE id = $1",
             [courseId]
         );
+        return rows[0];
+    }
+
+    // ---------- ATTACHMENTS ----------
+    async addAttachment(lessonId, data) {
+        const { title, file_url, file_size, file_type } = data;
+        const query = `
+            INSERT INTO attachments (lesson_id, title, file_url, file_size, file_type)
+            VALUES ($1, $2, $3, $4, $5)
+            RETURNING *;
+        `;
+        const { rows } = await pool.query(query, [lessonId, title, file_url, file_size, file_type]);
+        return rows[0];
+    }
+
+    async getAttachmentsByLesson(lessonId) {
+        const query = `SELECT * FROM attachments WHERE lesson_id = $1 ORDER BY created_at ASC`;
+        const { rows } = await pool.query(query, [lessonId]);
+        return rows;
+    }
+
+    async deleteAttachment(id) {
+        const { rowCount } = await pool.query("DELETE FROM attachments WHERE id = $1", [id]);
+        return rowCount > 0;
+    }
+
+    async getAttachmentById(id) {
+        const { rows } = await pool.query("SELECT * FROM attachments WHERE id = $1", [id]);
         return rows[0];
     }
 }

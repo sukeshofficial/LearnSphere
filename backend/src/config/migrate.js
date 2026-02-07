@@ -105,6 +105,14 @@ export const runMigrations = async () => {
         ) THEN
           ALTER TYPE visibility_enum ADD VALUE 'SIGNED_IN';
         END IF;
+
+        IF NOT EXISTS (
+          SELECT 1 FROM pg_enum
+          WHERE enumlabel = 'QUIZ'
+          AND enumtypid = 'lesson_type_enum'::regtype
+        ) THEN
+          ALTER TYPE lesson_type_enum ADD VALUE 'QUIZ';
+        END IF;
       END$$;
     `)
 
@@ -156,6 +164,19 @@ export const runMigrations = async () => {
       ON lessons(course_id, order_index);
     `);
 
+    // ---------- ATTACHMENTS ----------
+    await pool.query(`
+    CREATE TABLE IF NOT EXISTS attachments (
+      id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+      lesson_id UUID NOT NULL REFERENCES lessons(id) ON DELETE CASCADE,
+      title TEXT NOT NULL,
+      file_url TEXT NOT NULL,
+      file_size INTEGER,
+      file_type TEXT,
+      created_at TIMESTAMPTZ NOT NULL DEFAULT now()
+    );
+    `);
+
     // ---------- QUIZZES ----------
     await pool.query(`
     CREATE TABLE IF NOT EXISTS quizzes (
@@ -193,6 +214,22 @@ export const runMigrations = async () => {
       attempt_2_points INTEGER DEFAULT 0,
       attempt_3_points INTEGER DEFAULT 0,
       attempt_4_plus_points INTEGER DEFAULT 0
+    );
+    `);
+
+    // ---------- QUIZ ATTEMPTS ----------
+    await pool.query(`
+    CREATE TABLE IF NOT EXISTS quiz_attempts (
+      id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+      quiz_id UUID REFERENCES quizzes(id) ON DELETE CASCADE,
+      user_id UUID REFERENCES users(id) ON DELETE CASCADE,
+      score INTEGER DEFAULT 0,
+      attempt_number INTEGER NOT NULL,
+      status quiz_status_enum DEFAULT 'IN_PROGRESS',
+      points_earned INTEGER DEFAULT 0,
+      started_at TIMESTAMPTZ DEFAULT now(),
+      completed_at TIMESTAMPTZ,
+      UNIQUE(user_id, quiz_id, attempt_number)
     );
     `);
 
@@ -241,6 +278,37 @@ export const runMigrations = async () => {
       UPDATE users SET role='user' WHERE role IS NULL;
       ALTER TABLE users
       ALTER COLUMN role SET NOT NULL;
+    `);
+
+    // Fix legacy column naming in reviews, enrollments, and lessons if present
+    const tablesToFix = ['reviews', 'enrollments', 'lessons', 'lesson_progress', 'quizzes'];
+    for (const table of tablesToFix) {
+      await pool.query(`
+        DO $$
+        BEGIN
+            IF EXISTS (
+                SELECT 1 
+                FROM information_schema.columns 
+                WHERE table_name='${table}' AND column_name='court_id'
+            ) THEN
+                EXECUTE 'ALTER TABLE ${table} RENAME COLUMN court_id TO course_id';
+            END IF;
+        END $$;
+      `);
+    }
+
+    // Rename comment to review_text in reviews table
+    await pool.query(`
+      DO $$
+      BEGIN
+          IF EXISTS (
+              SELECT 1 
+              FROM information_schema.columns 
+              WHERE table_name='reviews' AND column_name='comment'
+          ) THEN
+              ALTER TABLE reviews RENAME COLUMN comment TO review_text;
+          END IF;
+      END $$;
     `);
 
     await pool.query("COMMIT");

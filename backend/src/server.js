@@ -13,7 +13,11 @@ import profileRoutes from "./routes/profile.routes.js";
 import usersRoutes from "./routes/users.routes.js";
 import courseRoutes from "./routes/course.routes.js";
 import lessonRoutes from "./routes/lesson.routes.js";
+import quizRoutes from "./routes/quiz.routes.js";
 import enrollmentRoutes from "./routes/enrollment.routes.js";
+import reviewRoutes from "./routes/review.routes.js";
+import progressRoutes from "./routes/progress.routes.js";
+import reportingRoutes from "./routes/reporting.routes.js";
 import authMiddleware from "./middleware/auth.middleware.js";
 
 dotenv.config();
@@ -39,6 +43,10 @@ app.use("/api/users", usersRoutes);
 app.use("/api/courses", courseRoutes);
 app.use("/api", lessonRoutes); // Prefixed with /api, routes handle nested paths
 app.use("/api", enrollmentRoutes);
+app.use("/api", reviewRoutes);
+app.use("/api", progressRoutes);
+app.use("/api", quizRoutes);
+app.use("/api", reportingRoutes);
 
 // test route
 app.get("/api/health", (req, res) => {

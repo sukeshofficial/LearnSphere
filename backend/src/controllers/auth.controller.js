@@ -142,11 +142,16 @@ export const verifySignupOtp = async (req, res) => {
       [user.id]
     );
 
-    // Optionally: you may want to set an "is_verified" field if you had one.
-    // But per your request we won't add new fields.
+    // Fetch full user for token (including role from DB)
+    const userRoleResult = await pool.query("SELECT role, is_super_admin FROM users WHERE id = $1", [user.id]);
+    const dbUser = userRoleResult.rows[0];
 
     // Create JWT token and set cookie (same as loginUser)
-    const token = generateToken({ userId: user.id });
+    const token = generateToken({
+      userId: user.id,
+      role: (dbUser.role || "user").toLowerCase(),
+      is_super_admin: dbUser.is_super_admin || false
+    });
     res.cookie("token", token, {
       httpOnly: true,
       secure: false,
@@ -221,7 +226,7 @@ export const loginUser = async (req, res) => {
 
     // Find User from DB
     const userResult = await pool.query(
-      "SELECT id, name, email, password, profile_photo, created_at FROM users WHERE email = $1",
+      "SELECT id, name, email, password, profile_photo, role, is_super_admin, created_at FROM users WHERE email = $1",
       [email],
     );
 
@@ -246,8 +251,12 @@ export const loginUser = async (req, res) => {
     // Remove password before sending
     delete user.password;
 
-    // Create token
-    const token = generateToken({ userId: user.id });
+    // Create token with role
+    const token = generateToken({
+      userId: user.id,
+      role: (user.role || "user").toLowerCase(),
+      is_super_admin: user.is_super_admin || false
+    });
 
     // Set Cookie
     res.cookie("token", token, {
