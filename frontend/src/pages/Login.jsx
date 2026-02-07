@@ -2,6 +2,8 @@ import { useState } from "react";
 import { loginUser } from "../api/auth";
 import { useAuth } from "../context/useAuth";
 import { useNavigate, Link } from "react-router-dom";
+import forgeGridLogo from "../assets/forgegrid.png";
+
 import "../styles/auth.css";
 
 export default function Login() {
@@ -32,7 +34,7 @@ export default function Login() {
 
   return (
     <div className="auth-page auth-split">
-      <form className="auth-form" onSubmit={handleSubmit}>
+     <form className="auth-form" onSubmit={handleSubmit}>
         <h2>Login</h2>
         {error && <div className="error">{error}</div>}
 

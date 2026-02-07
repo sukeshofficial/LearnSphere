@@ -71,6 +71,7 @@
   margin-bottom: 10px;
 }
 
+
 .success {
   color: var(--success);
   font-size: 14px;
@@ -366,9 +367,9 @@
   color: #6b7280; /* soft gray */
 }
 
-.password-input {
+/* .password-input {
   /* margin-bottom: 30px; */
-}
+/* } */
 
 .reg-footer {
   margin-top: 0px !important;

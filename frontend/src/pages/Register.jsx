@@ -11,9 +11,15 @@ export default function Register() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [profilePhotoFile, setProfilePhotoFile] = useState(null);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
+
+  // 🔴 ADDED: Password match check
+  const isPasswordMismatch =
+    confirmPassword.length > 0 && password !== confirmPassword;
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -85,6 +91,20 @@ export default function Register() {
           required
         />
 
+        <label>Re-enter Password</label>
+        <input
+          type="password"
+          value={confirmPassword}
+          onChange={(e) => setConfirmPassword(e.target.value)}
+          required
+        />
+
+        {isPasswordMismatch && (
+          <p className="error">
+            Passwords do not match
+          </p>
+        )}
+
         <div className="reg-footer auth-footer">
           <span>Already have an account?</span>
           <Link to="/login" className="auth-link">
@@ -92,7 +112,7 @@ export default function Register() {
           </Link>
         </div>
 
-        <button type="submit" disabled={loading}>
+        <button type="submit" disabled={isPasswordMismatch}>
           {loading ? "Creating..." : "Register"}
         </button>
       </form>
