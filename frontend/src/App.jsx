@@ -14,6 +14,7 @@ import PublicUserProfile from "./pages/PublicUserProfile";
 import CoursesKanbanPage from "./pages/CoursesKanbanPage";
 import CourseEditPage from "./pages/CourseEditPage";
 import UserCoursesPage from "./pages/UserCoursesPage";
+import ReportingPage from "./pages/ReportingPage";
 import "./App.css";
 import "./styles/dashboard.css";
 
@@ -73,6 +74,14 @@ function AppWrapper() {
           element={
             <ProtectedRoute>
               <CourseEditPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/reporting"
+          element={
+            <ProtectedRoute>
+              <ReportingPage />
             </ProtectedRoute>
           }
         />
