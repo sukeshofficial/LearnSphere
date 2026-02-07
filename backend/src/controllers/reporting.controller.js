@@ -22,6 +22,16 @@ class ReportingController {
             return res.status(500).json({ error: "Failed to fetch learner reports" });
         }
     };
+
+    getAllLearnerProgress = async (req, res) => {
+        try {
+            const reports = await reportingService.getAllLearnerProgress(req.userId);
+            return res.status(200).json(reports);
+        } catch (error) {
+            console.error("Get All Learner Progress Error:", error);
+            return res.status(500).json({ error: "Failed to fetch all learner progress" });
+        }
+    }
 }
 
 export default new ReportingController();

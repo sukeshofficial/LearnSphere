@@ -19,4 +19,7 @@ router.get("/quizzes/:id", requireAuth, quizController.getQuiz);
 // Submit Quiz Attempt
 router.post("/quizzes/:id/submit", requireAuth, quizController.submitQuiz);
 
+// Get Quizzes by Course
+router.get("/courses/:courseId/quizzes", requireAuth, quizController.getQuizzesByCourse);
+
 export default router;

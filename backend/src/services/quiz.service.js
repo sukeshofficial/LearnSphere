@@ -141,13 +141,18 @@ class QuizService {
                 }
             }
         }
-
         return {
             attempt: attemptRows[0],
             correct_count: correctCount,
             total_questions: totalQuestions,
             score
         };
+    }
+
+    async getQuizzesByCourse(courseId) {
+        const query = `SELECT * FROM quizzes WHERE course_id = $1 ORDER BY created_at DESC`;
+        const { rows } = await pool.query(query, [courseId]);
+        return rows;
     }
 }
 

@@ -75,6 +75,17 @@ class QuizController {
             return res.status(500).json({ error: "Failed to submit quiz" });
         }
     };
+
+    getQuizzesByCourse = async (req, res) => {
+        try {
+            const { courseId } = req.params;
+            const quizzes = await quizService.getQuizzesByCourse(courseId);
+            return res.status(200).json(quizzes);
+        } catch (error) {
+            console.error("Get Quizzes Error:", error);
+            return res.status(500).json({ error: "Failed to fetch quizzes" });
+        }
+    };
 }
 
 export default new QuizController();

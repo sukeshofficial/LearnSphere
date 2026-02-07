@@ -10,4 +10,7 @@ router.get("/reporting/courses/:courseId/stats", requireAuth, requireRole("admin
 // Instructor/Admin only: Get detailed progress for all learners in a course
 router.get("/reporting/courses/:courseId/learners", requireAuth, requireRole("admin", "instructor"), reportingController.getLearnerReports);
 
+// Instructor/Admin only: Global progress report for all courses owned by instructor
+router.get("/reporting/course-progress", requireAuth, requireRole("admin", "instructor"), reportingController.getAllLearnerProgress);
+
 export default router;

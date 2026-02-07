@@ -11,6 +11,8 @@ import Navbar from "./components/Navbar";
 import PublicProfile from "./pages/PublicProfile";
 import PublicUserProfile from "./pages/PublicUserProfile";
 import CoursesKanbanPage from "./pages/CoursesKanbanPage";
+import ReportingPage from "./pages/ReportingPage";
+import CourseEditPage from "./pages/CourseEditPage";
 import "./App.css";
 
 function AppWrapper() {
@@ -43,6 +45,30 @@ function AppWrapper() {
           element={
             <ProtectedRoute>
               <CoursesKanbanPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/courses/new"
+          element={
+            <ProtectedRoute>
+              <CourseEditPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/courses/:id/edit"
+          element={
+            <ProtectedRoute>
+              <CourseEditPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/reporting"
+          element={
+            <ProtectedRoute>
+              <ReportingPage />
             </ProtectedRoute>
           }
         />

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import SearchBar from "../components/SearchBar";
 import ViewToggle from "../components/ViewToggle";
 import CourseCard from "../components/CourseCard";
@@ -7,6 +8,7 @@ import * as coursesApi from "../services/coursesApi";
 import "../styles/coursesKanban.css";
 
 const CoursesKanbanPage = () => {
+    const navigate = useNavigate();
     const [courses, setCourses] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -62,8 +64,7 @@ const CoursesKanbanPage = () => {
     };
 
     const openEditModal = (course) => {
-        setEditingCourse(course);
-        setIsModalOpen(true);
+        navigate(`/courses/${course.id}/edit`);
     };
 
     // Client-side filtering for real-time search

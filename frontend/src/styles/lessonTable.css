@@ -1,0 +1,106 @@
+.lesson-table-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.lesson-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.lesson-table th {
+  text-align: left;
+  padding: 1rem;
+  color: #64748b;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-bottom: 2px solid #f1f5f9;
+}
+
+.lesson-row td {
+  padding: 1rem;
+  border-bottom: 1px solid #f1f5f9;
+  font-size: 0.95rem;
+  color: #1e293b;
+}
+
+.add-content-btn {
+  background: #6366f1;
+  color: white;
+  border: none;
+  padding: 0.8rem 1.5rem;
+  border-radius: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  align-self: center;
+}
+
+.add-content-btn:hover {
+  background: #4f46e5;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.2);
+}
+
+.three-dot-menu {
+  position: relative;
+  display: inline-block;
+}
+
+.dots-btn {
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  color: #94a3b8;
+  cursor: pointer;
+  padding: 5px 10px;
+  border-radius: 5px;
+}
+
+.dots-btn:hover {
+  background: #f1f5f9;
+}
+
+.dropdown-menu {
+  position: absolute;
+  right: 0;
+  top: 100%;
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
+  z-index: 10;
+  min-width: 120px;
+  overflow: hidden;
+}
+
+.dropdown-item {
+  width: 100%;
+  padding: 0.8rem 1rem;
+  text-align: left;
+  border: none;
+  background: none;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.dropdown-item:hover {
+  background: #f8fafc;
+}
+
+.dropdown-item.delete {
+  color: #ef4444;
+}
+
+.actions-cell {
+  text-align: right;
+}
+
+.no-lessons {
+  text-align: center;
+  padding: 2rem;
+  color: #64748b;
+}

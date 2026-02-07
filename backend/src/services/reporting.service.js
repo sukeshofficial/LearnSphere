@@ -66,6 +66,60 @@ class ReportingService {
             completion_percentage: row.total_lessons > 0 ? Math.round((row.completed_lessons / row.total_lessons) * 100) : 0
         }));
     }
+
+    async getAllLearnerProgress(instructorId) {
+        const query = `
+            WITH course_stats AS (
+                SELECT 
+                    c.id as course_id,
+                    c.title as course_name,
+                    COUNT(l.id) as total_lessons
+                FROM courses c
+                LEFT JOIN lessons l ON c.id = l.course_id
+                WHERE c.created_by = $1
+                GROUP BY c.id, c.title
+            ),
+            learner_progress AS (
+                SELECT 
+                    e.user_id,
+                    u.name as participant_name,
+                    cs.course_name,
+                    e.enrolled_at as enrolled_date,
+                    MIN(lp.completed_at) as start_date,
+                    SUM(COALESCE(lp.time_spent_seconds, 0)) as time_spent_seconds,
+                    COUNT(lp.lesson_id) FILTER (WHERE lp.completed = true) as completed_count,
+                    cs.total_lessons,
+                    MAX(lp.completed_at) as completed_date
+                FROM enrollments e
+                JOIN users u ON e.user_id = u.id
+                JOIN course_stats cs ON e.course_id = cs.course_id
+                LEFT JOIN lesson_progress lp ON e.user_id = lp.user_id AND e.course_id = lp.course_id
+                GROUP BY e.user_id, u.name, cs.course_name, e.enrolled_at, cs.total_lessons
+            )
+            SELECT 
+                course_name,
+                participant_name,
+                enrolled_date,
+                start_date,
+                time_spent_seconds,
+                total_lessons,
+                completed_count,
+                CASE 
+                    WHEN total_lessons = 0 THEN 0
+                    ELSE ROUND((completed_count::float / total_lessons::float) * 100)
+                END as completion_percentage,
+                completed_date,
+                CASE 
+                    WHEN completed_count = 0 THEN 'NOT_STARTED'
+                    WHEN completed_count < total_lessons THEN 'IN_PROGRESS'
+                    WHEN completed_count = total_lessons AND total_lessons > 0 THEN 'COMPLETED'
+                    ELSE 'NOT_STARTED'
+                END as status
+            FROM learner_progress;
+        `;
+        const { rows } = await pool.query(query, [instructorId]);
+        return rows;
+    }
 }
 
 export default new ReportingService();

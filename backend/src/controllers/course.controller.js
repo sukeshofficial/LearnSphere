@@ -142,6 +142,34 @@ class CourseController {
             return res.status(500).json({ error: "Failed to delete course" });
         }
     };
+
+    updateImage = async (req, res) => {
+        try {
+            const { id } = req.params;
+            const { image_url } = req.body;
+            if (!image_url) return res.status(400).json({ error: "image_url is required" });
+
+            const result = await courseService.updateCourseImage(id, image_url);
+            return res.status(200).json(result);
+        } catch (error) {
+            console.error("Update Image Error:", error);
+            return res.status(500).json({ error: "Failed to update course image" });
+        }
+    };
+
+    contactAttendees = async (req, res) => {
+        try {
+            const { id } = req.params;
+            const { subject, message } = req.body;
+            if (!subject || !message) return res.status(400).json({ error: "Subject and message are required" });
+
+            const result = await courseService.contactAttendees(id, req.userId, subject, message);
+            return res.status(200).json(result);
+        } catch (error) {
+            console.error("Contact Attendees Error:", error);
+            return res.status(500).json({ error: "Failed to contact attendees" });
+        }
+    };
 }
 
 export default new CourseController();

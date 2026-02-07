@@ -34,5 +34,7 @@ router.post("/", requireAuth, requireRole("admin", "instructor"), courseControll
 router.put("/:id", requireAuth, courseController.updateCourse);
 router.patch("/:id/publish", requireAuth, courseController.publishCourse);
 router.delete("/:id", requireAuth, courseController.deleteCourse);
+router.post("/:id/image", requireAuth, courseController.updateImage);
+router.post("/:id/contact", requireAuth, courseController.contactAttendees);
 
 export default router;

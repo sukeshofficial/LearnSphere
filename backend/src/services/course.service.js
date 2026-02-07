@@ -219,6 +219,18 @@ class CourseService {
         const { rows } = await pool.query("SELECT * FROM courses WHERE id = $1", [id]);
         return rows[0];
     }
+
+    async updateCourseImage(id, imageUrl) {
+        const query = `UPDATE courses SET image_url = $1, updated_at = now() WHERE id = $2 RETURNING id, image_url`;
+        const { rows } = await pool.query(query, [imageUrl, id]);
+        return rows[0];
+    }
+
+    async contactAttendees(courseId, userId, subject, message) {
+        // Stub for sending bulk email/notification
+        console.log(`[Email Stub] From: ${userId}, Course: ${courseId}, Subject: ${subject}`);
+        return { success: true, message: "Message sent to all attendees (stub)" };
+    }
 }
 
 export default new CourseService();
