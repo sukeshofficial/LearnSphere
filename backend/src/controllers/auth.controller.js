@@ -13,10 +13,10 @@ const createNumericOtp = () => {
 
 export const registerUser = async (req, res) => {
   try {
-    const { name, email, password } = req.body;
+    const { name, email, password, role } = req.body;
 
     // Basic Validation all the required fields exist?
-    if (!name || !email || !password) {
+    if (!name || !email || !password || !role) {
       return res.status(400).json({
         message: "Name, email, and password are required",
       });
@@ -49,14 +49,21 @@ export const registerUser = async (req, res) => {
 
     const profilePhotoPath = req.file ? `/uploads/${req.file.filename}` : null;
 
+    const allowedRoles = ["learner", "instructor"];
+    if (!allowedRoles.includes(role)) {
+      return res.status(400).json({
+        message: "Invalid role selected",
+      });
+    }
     // Insert New User
     const newUser = await pool.query(
       `
-      INSERT INTO users (name, username, email, password, profile_photo)
-      VALUES ($1, $2, $3, $4, $5)
-      RETURNING id, name, username, email, profile_photo, created_at
+      INSERT INTO users (name, username, email, password, role, profile_photo)
+      VALUES ($1, $2, $3, $4, $5, $6)
+
+      RETURNING id, name, username, email, role, profile_photo, created_at
       `,
-      [name, username, email, hashedPassword, profilePhotoPath],
+      [name, username, email, hashedPassword, role, profilePhotoPath],
     );
 
     const user = newUser.rows[0]

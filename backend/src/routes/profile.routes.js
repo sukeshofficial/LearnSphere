@@ -11,6 +11,7 @@ router.put(
   upload.single("profile_photo"),
   updateMyProfile
 );
+
 router.delete("/delete-profile", authMiddleware, deleteProfile);
 
 export default router;

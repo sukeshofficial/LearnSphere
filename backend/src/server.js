@@ -53,7 +53,7 @@ app.get("/api/auth/me", authMiddleware, async (req, res) => {
   try {
     const result = await pool.query(
       `
-      SELECT id, name, username, email, profile_photo, bio, is_public, created_at
+      SELECT id, name, username, email, role, profile_photo, bio, is_public, created_at
       FROM users
       WHERE id = $1
       `,
