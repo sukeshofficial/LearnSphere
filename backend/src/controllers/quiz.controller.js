@@ -3,8 +3,7 @@ import quizService from "../services/quiz.service.js";
 class QuizController {
     createQuiz = async (req, res) => {
         try {
-            const { courseId } = req.body;
-            const { title } = req.body;
+            const { courseId, title } = req.body || {};
             if (!courseId || !title) return res.status(400).json({ error: "courseId and title are required" });
 
             const quiz = await quizService.createQuiz(courseId, req.user.id, title);
@@ -12,6 +11,18 @@ class QuizController {
         } catch (error) {
             console.error("Create Quiz Error:", error);
             return res.status(500).json({ error: "Failed to create quiz" });
+        }
+    };
+
+    updateQuiz = async (req, res) => {
+        try {
+            const { id } = req.params;
+            const { title } = req.body;
+            const quiz = await quizService.updateQuiz(id, title);
+            return res.status(200).json(quiz);
+        } catch (error) {
+            console.error("Update Quiz Error:", error);
+            return res.status(500).json({ error: "Failed to update quiz" });
         }
     };
 
@@ -32,6 +43,29 @@ class QuizController {
         } catch (error) {
             console.error("Add Question Error:", error);
             return res.status(500).json({ error: "Failed to add question" });
+        }
+    };
+
+    updateQuestion = async (req, res) => {
+        try {
+            const { id } = req.params;
+            const { question_text, options } = req.body;
+            const question = await quizService.updateQuestion(id, question_text, options);
+            return res.status(200).json(question);
+        } catch (error) {
+            console.error("Update Question Error:", error);
+            return res.status(500).json({ error: "Failed to update question" });
+        }
+    };
+
+    deleteQuestion = async (req, res) => {
+        try {
+            const { id } = req.params;
+            await quizService.deleteQuestion(id);
+            return res.status(200).json({ message: "Question deleted" });
+        } catch (error) {
+            console.error("Delete Question Error:", error);
+            return res.status(500).json({ error: "Failed to delete question" });
         }
     };
 

@@ -11,3 +11,5 @@ export const updateCourse = (id, data) => api.put(`/api/courses/${id}`, data);
 export const publishCourse = (id, is_published) => api.patch(`/api/courses/${id}/publish`, { is_published });
 
 export const deleteCourse = (id) => api.delete(`/api/courses/${id}`);
+
+export const getLessonsByCourse = (courseId) => api.get(`/api/courses/${courseId}/lessons`);

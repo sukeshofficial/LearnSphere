@@ -11,6 +11,12 @@ class QuizService {
         return rows[0];
     }
 
+    async updateQuiz(quizId, title) {
+        const query = `UPDATE quizzes SET title = $1 WHERE id = $2 RETURNING *`;
+        const { rows } = await pool.query(query, [title, quizId]);
+        return rows[0];
+    }
+
     async addQuestion(quizId, questionText, orderIndex) {
         const query = `
             INSERT INTO quiz_questions (quiz_id, question_text, order_index)
@@ -18,6 +24,42 @@ class QuizService {
             RETURNING *;
         `;
         const { rows } = await pool.query(query, [quizId, questionText, orderIndex]);
+        return rows[0];
+    }
+
+    async updateQuestion(questionId, questionText, options) {
+        await pool.query("BEGIN");
+        try {
+            // Update question text
+            await pool.query(
+                `UPDATE quiz_questions SET question_text = $1 WHERE id = $2`,
+                [questionText, questionId]
+            );
+
+            // Replace options (Delete existing, insert new)
+            await pool.query(`DELETE FROM quiz_options WHERE question_id = $1`, [questionId]);
+
+            if (options && Array.isArray(options)) {
+                for (let i = 0; i < options.length; i++) {
+                    const opt = options[i];
+                    await pool.query(
+                        `INSERT INTO quiz_options (question_id, option_text, is_correct, order_index) VALUES ($1, $2, $3, $4)`,
+                        [questionId, opt.text, opt.is_correct, i]
+                    );
+                }
+            }
+
+            await pool.query("COMMIT");
+            return { id: questionId, question_text: questionText };
+        } catch (error) {
+            await pool.query("ROLLBACK");
+            throw error;
+        }
+    }
+
+    async deleteQuestion(questionId) {
+        const query = `DELETE FROM quiz_questions WHERE id = $1 RETURNING *`;
+        const { rows } = await pool.query(query, [questionId]);
         return rows[0];
     }
 
@@ -32,7 +74,10 @@ class QuizService {
     }
 
     async setRewards(quizId, rewards) {
-        const { attempt_1, attempt_2, attempt_3, attempt_4_plus } = rewards;
+        const attempt_1 = rewards.attempt_1 ?? rewards.first_try ?? 0;
+        const attempt_2 = rewards.attempt_2 ?? rewards.second_try ?? 0;
+        const attempt_3 = rewards.attempt_3 ?? rewards.third_try ?? 0;
+        const attempt_4_plus = rewards.attempt_4_plus ?? rewards.fourth_plus ?? 0;
         const query = `
             INSERT INTO quiz_rewards (quiz_id, attempt_1_points, attempt_2_points, attempt_3_points, attempt_4_plus_points)
             VALUES ($1, $2, $3, $4, $5)

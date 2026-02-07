@@ -1,0 +1,24 @@
+.quiz-builder-container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    width: 100vw;
+    background-color: #f8fafc;
+    overflow: hidden;
+    color: #1e293b;
+}
+
+.builder-layout {
+    display: flex;
+    flex: 1;
+    overflow: hidden;
+}
+
+.editor-panel-wrapper {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    background-color: #f1f5f9;
+    padding: 2rem;
+    overflow-y: auto;
+}

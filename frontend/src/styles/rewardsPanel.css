@@ -1,0 +1,95 @@
+.rewards-panel-view {
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    max-width: 700px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 3rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2.5rem;
+}
+
+.rewards-header {
+    border-bottom: 1px solid #f1f5f9;
+    padding-bottom: 1.5rem;
+}
+
+.rewards-header h2 {
+    margin: 0 0 0.5rem 0;
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+.rewards-header p {
+    margin: 0;
+    color: #64748b;
+    font-size: 1rem;
+}
+
+.rewards-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.reward-row {
+    display: grid;
+    grid-template-columns: 220px 160px;
+    align-items: center;
+    gap: 1rem;
+}
+
+.reward-label {
+    font-weight: 600;
+    color: #475569;
+    font-size: 1.1rem;
+}
+
+.reward-input-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.reward-input-wrapper input {
+    width: 80px;
+    padding: 0.75rem;
+    border: 1.5px solid #e2e8f0;
+    border-radius: 8px;
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: #6366f1;
+    text-align: center;
+}
+
+.reward-unit {
+    color: #94a3b8;
+    font-weight: 600;
+}
+
+.rewards-footer {
+    margin-top: 1rem;
+    padding-top: 2rem;
+    border-top: 1px solid #f1f5f9;
+}
+
+.rewards-footer .btn-save {
+    width: 100%;
+}
+
+.rewards-notice {
+    margin-top: 1rem;
+    padding: 1.25rem;
+    background-color: #fff1f2;
+    border-left: 4px solid #f43f5e;
+    border-radius: 8px;
+}
+
+.rewards-notice p {
+    margin: 0;
+    color: #9f1239;
+    font-size: 0.9rem;
+    font-weight: 500;
+}

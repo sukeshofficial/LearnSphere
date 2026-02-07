@@ -37,7 +37,9 @@
   gap: 16px;
 }
 
-.loading-state, .error-state, .no-results {
+.loading-state,
+.error-state,
+.no-results {
   text-align: center;
   padding: 50px;
   font-size: 1.2rem;
@@ -52,23 +54,31 @@
   position: fixed;
   bottom: 30px;
   left: 30px;
-  width: 60px;
-  height: 60px;
-  border-radius: 50%;
-  background: #007bff;
+  padding: 0 25px;
+  height: 50px;
+  border-radius: 25px;
+  background: #6366f1;
   color: white;
   border: none;
-  font-size: 30px;
+  font-size: 16px;
+  font-weight: 600;
   display: flex;
   align-items: center;
   justify-content: center;
+  gap: 10px;
   cursor: pointer;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-  transition: transform 0.2s, background 0.2s;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   z-index: 100;
 }
 
+.add-course-fab .plus-icon {
+  font-size: 24px;
+  line-height: 1;
+}
+
 .add-course-fab:hover {
-  transform: scale(1.1);
-  background: #0056b3;
+  transform: translateY(-2px);
+  background: #4f46e5;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
 }

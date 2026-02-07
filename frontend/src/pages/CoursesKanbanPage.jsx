@@ -115,7 +115,8 @@ const CoursesKanbanPage = () => {
                 }}
                 title="Create New Course"
             >
-                +
+                <span className="plus-icon">+</span>
+                <span className="btn-text">Create Course</span>
             </button>
 
             <CreateCourseModal

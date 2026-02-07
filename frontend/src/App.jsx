@@ -15,29 +15,38 @@ import CoursesKanbanPage from "./pages/CoursesKanbanPage";
 import CourseEditPage from "./pages/CourseEditPage";
 import UserCoursesPage from "./pages/UserCoursesPage";
 import ReportingPage from "./pages/ReportingPage";
+import QuizBuilderPage from "./pages/QuizBuilderPage";
+import MyCoursesPage from "./pages/MyCoursesPage";
+import CoursePlayerPage from "./pages/CoursePlayerPage";
 import "./App.css";
 import "./styles/dashboard.css";
 
 function CoursesRouteWrapper() {
   const { user } = useAuth();
-  // Check if user is admin
-  if (user && (user.role === 'admin' || user.is_superadmin)) {
+  const location = useLocation();
+
+  // Use standardized role check for admin/instructor view
+  const userRole = (user?.role || "").toLowerCase();
+  const isAdminView = userRole === 'admin' || userRole === 'instructor' || user?.is_super_admin;
+
+  if (isAdminView) {
     return (
       <ProtectedRoute>
         <CoursesKanbanPage />
       </ProtectedRoute>
     );
   }
-  // Otherwise show user view (public or enrolled user)
-  return <UserCoursesPage />;
+  // Otherwise show learner view (public or enrolled user)
+  return <MyCoursesPage key={location.key} />;
 }
 
 function AppWrapper() {
   const location = useLocation();
-  const hideNavbarPaths = ["/login", "/register", "/forgot-password"];
+  const hideNavbarPaths = ["/login", "/register", "/forgot-password", "/quiz-builder"];
   const hideNavbar =
     hideNavbarPaths.includes(location.pathname) ||
-    location.pathname.startsWith("/reset-password");
+    location.pathname.startsWith("/reset-password") ||
+    location.pathname.startsWith("/quiz-builder");
 
   return (
     <>
@@ -62,6 +71,15 @@ function AppWrapper() {
         <Route path="/courses" element={<CoursesRouteWrapper />} />
 
         <Route
+          path="/courses/:id"
+          element={
+            <ProtectedRoute>
+              <CoursePlayerPage />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
           path="/courses/new"
           element={
             <ProtectedRoute>
@@ -82,6 +100,14 @@ function AppWrapper() {
           element={
             <ProtectedRoute>
               <ReportingPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/quiz-builder/:quizId"
+          element={
+            <ProtectedRoute>
+              <QuizBuilderPage />
             </ProtectedRoute>
           }
         />

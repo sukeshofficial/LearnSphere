@@ -231,6 +231,13 @@ class CourseService {
         console.log(`[Email Stub] From: ${userId}, Course: ${courseId}, Subject: ${subject}`);
         return { success: true, message: "Message sent to all attendees (stub)" };
     }
+
+    async purchaseCourse(id, userId, paymentData) {
+        // Stub for payment verification and record
+        const txnId = `txn_${Date.now()}`;
+        console.log(`[Payment Stub] User ${userId} purchased course ${id} with txn ${txnId}`);
+        return { success: true, txnId };
+    }
 }
 
 export default new CourseService();

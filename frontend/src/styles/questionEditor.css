@@ -1,0 +1,89 @@
+.question-editor-panel {
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    max-width: 900px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.editor-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+.editor-header h2 {
+    margin: 0;
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #1e293b;
+}
+
+.header-actions {
+    display: flex;
+    gap: 0.75rem;
+}
+
+.btn-editor {
+    padding: 0.625rem 1.25rem;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    border: none;
+}
+
+.btn-save {
+    background-color: #6366f1;
+    color: white;
+}
+
+.btn-save:hover {
+    background-color: #4f46e5;
+}
+
+.btn-delete {
+    background-color: #fee2e2;
+    color: #ef4444;
+}
+
+.btn-delete:hover {
+    background-color: #fecaca;
+}
+
+.question-input-group {
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+}
+
+.question-number-prefix {
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: #64748b;
+    padding-top: 0.75rem;
+}
+
+.question-textarea {
+    flex: 1;
+    min-height: 100px;
+    padding: 1rem;
+    border: 1.5px solid #e2e8f0;
+    border-radius: 10px;
+    font-size: 1.125rem;
+    font-family: inherit;
+    resize: vertical;
+}
+
+.question-textarea:focus {
+    outline: none;
+    border-color: #6366f1;
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+}

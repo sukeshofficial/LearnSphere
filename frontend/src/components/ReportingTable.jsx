@@ -50,7 +50,7 @@ const ReportingTable = ({ data, visibleColumns }) => {
                         </tr>
                     ) : (
                         data.map((row, index) => (
-                            <tr key={`${row.course_name}-${row.participant_name}`}>
+                            <tr key={row.enrollment_id || `${row.course_name}-${row.participant_name}-${index}`}>
                                 {visibleColumns.includes("sno") && <td>{index + 1}</td>}
                                 {visibleColumns.includes("course_name") && <td>{row.course_name}</td>}
                                 {visibleColumns.includes("participant_name") && <td>{row.participant_name}</td>}

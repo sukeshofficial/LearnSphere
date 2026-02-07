@@ -1,0 +1,133 @@
+.quiz-builder-layout {
+    display: flex;
+    height: 100vh;
+    background: #f8fafc;
+    overflow: hidden;
+}
+
+.quiz-builder-main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.builder-header {
+    background: white;
+    padding: 1rem 2rem;
+    border-bottom: 1px solid #e2e8f0;
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    height: 70px;
+}
+
+.back-btn {
+    background: none;
+    border: none;
+    color: #64748b;
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 1rem;
+    padding: 0.5rem;
+    border-radius: 6px;
+    transition: all 0.2s;
+}
+
+.back-btn:hover {
+    background: #f1f5f9;
+    color: #1e293b;
+}
+
+.quiz-title-section {
+    flex: 1;
+}
+
+.quiz-title-input {
+    width: 100%;
+    border: 1px solid transparent;
+    font-size: 1.5rem;
+    font-weight: 700;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    color: #1e293b;
+    background: transparent;
+}
+
+.quiz-title-input:hover {
+    background: #f1f5f9;
+}
+
+.quiz-title-input:focus {
+    background: white;
+    border-color: #cbd5e1;
+    outline: none;
+}
+
+.builder-content {
+    flex: 1;
+    padding: 2rem;
+    overflow-y: auto;
+    background: #f1f5f9;
+    display: flex;
+    justify-content: center;
+}
+
+.no-questions {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 4rem;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    height: fit-content;
+    max-width: 500px;
+    width: 100%;
+}
+
+.btn-primary {
+    background: #6366f1;
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.btn-primary:hover {
+    background: #4f46e5;
+}
+
+.btn-primary:disabled {
+    background: #94a3b8;
+    cursor: not-allowed;
+}
+
+.btn-delete {
+    background: #fee2e2;
+    color: #ef4444;
+    padding: 0.75rem 1.25rem;
+    border-radius: 8px;
+    font-weight: 600;
+    border: 1px solid #fecaca;
+    cursor: pointer;
+}
+
+.btn-delete:hover {
+    background: #fef2f2;
+}
+
+.quiz-builder-loading,
+.quiz-builder-error {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    font-size: 1.25rem;
+    color: #64748b;
+}

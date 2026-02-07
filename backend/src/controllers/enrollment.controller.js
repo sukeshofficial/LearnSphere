@@ -4,7 +4,7 @@ class EnrollmentController {
     enroll = async (req, res) => {
         try {
             const { id: courseId } = req.params;
-            const { invite_token, payment_txn_id } = req.body;
+            const { invite_token, payment_txn_id } = req.body || {};
             const userId = req.user.id;
 
             const course = await enrollmentService.getCourseById(courseId);
@@ -28,14 +28,18 @@ class EnrollmentController {
                 enrollment = await enrollmentService.createDirectEnrollment(userId, courseId);
             }
             else if (course.access_rule === 'INVITE') {
-                if (!invite_token) {
+                // If user is already invited, we can auto-enroll them even without explicit token
+                if (existing && existing.status === 'INVITED') {
+                    enrollment = await enrollmentService.createDirectEnrollment(userId, courseId, 'ACTIVE');
+                } else if (invite_token) {
+                    const result = await enrollmentService.enrollWithToken(userId, courseId, invite_token);
+                    if (result.error) {
+                        return res.status(400).json({ error: "Invalid or expired invite token" });
+                    }
+                    enrollment = result;
+                } else {
                     return res.status(400).json({ error: "Invite token is required for this course" });
                 }
-                const result = await enrollmentService.enrollWithToken(userId, courseId, invite_token);
-                if (result.error) {
-                    return res.status(400).json({ error: "Invalid or expired invite token" });
-                }
-                enrollment = result;
             }
             else if (course.access_rule === 'PAID') {
                 if (!payment_txn_id || payment_txn_id.length < 5) {

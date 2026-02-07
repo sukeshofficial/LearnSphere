@@ -108,7 +108,7 @@ class LessonService {
 
     async getLessonsByCourse(courseId) {
         const query = `
-      SELECT id, title, type, duration_seconds, allow_download, order_index
+      SELECT id, title, type, content_url, description, duration_seconds, allow_download, order_index
       FROM lessons
       WHERE course_id = $1
       ORDER BY order_index ASC;

@@ -1,0 +1,80 @@
+.my-courses-layout {
+    display: flex;
+    gap: 2rem;
+    padding: 2rem;
+    padding-top: 120px;
+    /* Ensures content clears the fixed navbar */
+    max-width: 1400px;
+    margin: 0 auto;
+    background-color: #f8fafc;
+    min-height: 100vh;
+}
+
+.main-content {
+    flex: 1;
+}
+
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.page-header h1 {
+    font-size: 2rem;
+    color: #1e293b;
+    font-weight: 800;
+}
+
+.search-wrapper {
+    width: 100%;
+    max-width: 450px;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.search-wrapper .search-bar-container {
+    margin-bottom: 0;
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    position: relative;
+    align-items: center;
+}
+
+.search-wrapper .search-input {
+    width: 100%;
+    max-width: 400px;
+    padding-left: 45px;
+    /* Space for icon */
+    height: 44px;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    background: white;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.search-wrapper .search-icon {
+    position: absolute;
+    left: 15px;
+    width: 20px;
+    height: 20px;
+    opacity: 0.5;
+    pointer-events: none;
+}
+
+.course-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 2rem;
+}
+
+.no-results {
+    text-align: center;
+    padding: 4rem;
+    color: #64748b;
+    background: white;
+    border-radius: 1rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+}

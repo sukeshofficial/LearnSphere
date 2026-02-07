@@ -6,6 +6,7 @@ import LessonsTable from "../components/LessonsTable";
 import LessonEditorModal from "../components/LessonEditorModal";
 import * as coursesApi from "../services/coursesApi";
 import * as lessonsApi from "../services/lessonsApi";
+import * as quizApi from "../services/quizApi";
 import api from "../api/api";
 import "../styles/courseForm.css";
 import "../styles/tabs.css";
@@ -20,11 +21,13 @@ const CourseEditPage = () => {
     const [loading, setLoading] = useState(true);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [editingLesson, setEditingLesson] = useState(null);
+    const [quizzes, setQuizzes] = useState([]);
 
     useEffect(() => {
         if (id && id !== 'new') {
             fetchCourseData();
             fetchLessons();
+            fetchQuizzes();
         } else {
             setCourse({
                 title: "",
@@ -56,6 +59,15 @@ const CourseEditPage = () => {
             setLessons(resp.data.lessons || []);
         } catch (err) {
             console.error("Fetch lessons error:", err);
+        }
+    };
+
+    const fetchQuizzes = async () => {
+        try {
+            const resp = await quizApi.getQuizzesByCourse(id);
+            setQuizzes(resp.data || []);
+        } catch (err) {
+            console.error("Fetch quizzes error:", err);
         }
     };
 
@@ -170,6 +182,63 @@ const CourseEditPage = () => {
                                     <option value="SIGNED_IN">Signed In</option>
                                 </select>
                             </div>
+                        </div>
+                    )}
+
+                    {activeTab === "quiz" && (
+                        <div className="quiz-tab-content">
+                            <div className="quiz-list-table-container">
+                                <table className="lessons-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Content Title</th>
+                                            <th>Category</th>
+                                            <th style={{ width: '50px' }}></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {quizzes.length === 0 ? (
+                                            <tr>
+                                                <td colSpan="3" style={{ textAlign: 'center', padding: '2rem', color: '#64748b' }}>
+                                                    No quizzes yet.
+                                                </td>
+                                            </tr>
+                                        ) : (
+                                            quizzes.map(quiz => (
+                                                <tr key={quiz.id}>
+                                                    <td className="lesson-title-cell">{quiz.title}</td>
+                                                    <td className="lesson-category-cell">
+                                                        <span className="category-badge category-quiz">Quiz</span>
+                                                    </td>
+                                                    <td>
+                                                        <div className="lesson-actions-cell">
+                                                            <button
+                                                                className="btn-icon"
+                                                                title="Edit Quiz"
+                                                                onClick={() => navigate(`/quiz-builder/${quiz.id}`)}
+                                                            >
+                                                                ✎
+                                                            </button>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            ))
+                                        )}
+                                    </tbody>
+                                </table>
+                            </div>
+                            <button
+                                className="add-content-btn"
+                                onClick={async () => {
+                                    const title = window.prompt("Enter Quiz Title:", "New Quiz");
+                                    if (title) {
+                                        const resp = await quizApi.createQuiz(id, title);
+                                        navigate(`/quiz-builder/${resp.data.id}`);
+                                    }
+                                }}
+                            >
+                                + Add Quiz
+                            </button>
                         </div>
                     )}
                 </div>

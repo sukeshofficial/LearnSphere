@@ -4,11 +4,13 @@ import { requireAuth, requireRole } from "../middleware/auth.middleware.js";
 
 const router = Router();
 
-// Create Quiz (Instructor/Admin)
 router.post("/quizzes", requireAuth, requireRole("admin", "instructor"), quizController.createQuiz);
+router.put("/quizzes/:id", requireAuth, requireRole("admin", "instructor"), quizController.updateQuiz);
 
-// Add Question with Options
+// Questions
 router.post("/quizzes/:quizId/questions", requireAuth, requireRole("admin", "instructor"), quizController.addQuestion);
+router.put("/quizzes/questions/:id", requireAuth, requireRole("admin", "instructor"), quizController.updateQuestion);
+router.delete("/quizzes/questions/:id", requireAuth, requireRole("admin", "instructor"), quizController.deleteQuestion);
 
 // Set Rewards
 router.post("/quizzes/:quizId/rewards", requireAuth, requireRole("admin", "instructor"), quizController.setRewards);

@@ -170,6 +170,21 @@ class CourseController {
             return res.status(500).json({ error: "Failed to contact attendees" });
         }
     };
+
+    purchaseCourse = async (req, res) => {
+        try {
+            const { id } = req.params;
+            const result = await courseService.purchaseCourse(id, req.userId, req.body);
+
+            // Auto-enroll after purchase
+            await enrollmentService.enrollWithPayment(req.userId, id, result.txnId);
+
+            return res.status(200).json(result);
+        } catch (error) {
+            console.error("Purchase Course Error:", error);
+            return res.status(500).json({ error: "Failed to process purchase" });
+        }
+    };
 }
 
 export default new CourseController();
