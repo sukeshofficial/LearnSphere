@@ -1,0 +1,231 @@
+/* src/styles/userCourses.css */
+
+.user-courses-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem 1rem;
+    padding-top: 100px;
+    /* Space for fixed navbar */
+}
+
+.user-courses-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.user-courses-header h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #1f2937;
+    margin: 0;
+}
+
+.search-wrapper {
+    width: 100%;
+    max-width: 400px;
+}
+
+.user-courses-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 2rem;
+}
+
+/* Card Styles */
+.user-course-card {
+    background: #ffffff;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    border: 1px solid #e5e7eb;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.user-course-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+.card-image-container {
+    height: 180px;
+    width: 100%;
+    background-color: #f3f4f6;
+    position: relative;
+    overflow: hidden;
+}
+
+.card-course-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.user-course-card:hover .card-course-img {
+    transform: scale(1.05);
+}
+
+.card-placeholder {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #e5e7eb 0%, #f3f4f6 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #9ca3af;
+    font-size: 0.875rem;
+}
+
+.card-content {
+    padding: 1.5rem;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.card-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #111827;
+    margin: 0 0 0.5rem 0;
+    line-height: 1.4;
+}
+
+.card-description {
+    font-size: 0.875rem;
+    color: #6b7280;
+    margin-bottom: 1rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    flex-grow: 1;
+    /* Pushes tags/button down */
+}
+
+.card-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.card-tag {
+    background-color: #eff6ff;
+    color: #3b82f6;
+    padding: 0.25rem 0.75rem;
+    border-radius: 9999px;
+    font-size: 0.75rem;
+    font-weight: 500;
+}
+
+.card-action-btn {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.875rem;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-align: center;
+}
+
+.btn-join {
+    background-color: #3b82f6;
+    color: white;
+}
+
+.btn-join:hover {
+    background-color: #2563eb;
+}
+
+.btn-continue {
+    background-color: #10b981;
+    color: white;
+}
+
+.btn-continue:hover {
+    background-color: #059669;
+}
+
+.btn-login {
+    background-color: #f3f4f6;
+    color: #374151;
+    border: 1px solid #d1d5db;
+}
+
+.btn-login:hover {
+    background-color: #e5e7eb;
+}
+
+.loading-state,
+.error-state,
+.empty-state {
+    text-align: center;
+    padding: 4rem;
+    color: #6b7280;
+}
+
+/* Toast Styles (Copied from profile.css for reuse) */
+.toast {
+    position: fixed;
+    bottom: 32px;
+    right: 32px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    padding: 14px 22px;
+    border-radius: 14px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #0f172a;
+
+    min-width: 240px;
+    max-width: 360px;
+    z-index: 9999;
+
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+
+    background: rgba(255, 255, 255, 0.55);
+    box-shadow:
+        0 12px 30px rgba(0, 0, 0, 0.15),
+        inset 0 1px 0 rgba(255, 255, 255, 0.5);
+
+    animation: toast-glass-slide-in 0.3s ease forwards;
+}
+
+.toast-success {
+    color: #065f46;
+    background-color: #bbffcf9d;
+}
+
+.toast-error {
+    color: #7f1d1d;
+    background-color: #ffbbbb9d;
+}
+
+.toast-icon {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+}
+
+@keyframes toast-glass-slide-in {
+    from {
+        opacity: 0;
+        transform: translateY(20px) scale(0.96);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}

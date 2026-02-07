@@ -43,6 +43,7 @@ export const runMigrations = async () => {
       ALTER TABLE users
       ALTER COLUMN password SET NOT NULL,
       ALTER COLUMN role SET NOT NULL,
+      ADD COLUMN total_points INTEGER DEFAULT 0,
       ALTER COLUMN is_super_admin SET NOT NULL,
       ALTER COLUMN is_active SET NOT NULL,
       ALTER COLUMN email_verified SET NOT NULL;
