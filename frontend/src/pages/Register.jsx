@@ -15,6 +15,7 @@ export default function Register() {
   const [profilePhotoFile, setProfilePhotoFile] = useState(null);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [role, setRole] = useState("learner"); // values: "learner" or "instructor"
 
   // Password validation function
   const isValidPassword = (password) => {
@@ -44,6 +45,7 @@ export default function Register() {
       formData.append("name", name);
       formData.append("email", email);
       formData.append("password", password);
+      formData.append("role", role);
 
       if (profilePhotoFile) {
         formData.append("profilePhoto", profilePhotoFile); // MUST MATCH multer
@@ -95,6 +97,17 @@ export default function Register() {
           required
         />
 
+        <label>Account type</label>
+        <select
+          value={role}
+          onChange={(e) => setRole(e.target.value)}
+          className="auth-input"
+          required
+        >
+          <option value="learner">Learner (individual)</option>
+          <option value="instructor">Instructor</option>
+        </select>
+
         <label>Password</label>
         <input
           className="password-input"
@@ -118,12 +131,13 @@ export default function Register() {
           </p>
         )}
 
-        {!isPasswordStrong && (
+        {password.length > 0 && !isPasswordStrong && (
           <p className="error">
-            Password  must contain a small case, a large case and
-            a special character and length should be in more then 8 charachters.
+            Password must contain a small case, a large case,
+            a special character and be at least 8 characters long.
           </p>
         )}
+
 
         <div className="reg-footer auth-footer">
           <span>Already have an account?</span>
