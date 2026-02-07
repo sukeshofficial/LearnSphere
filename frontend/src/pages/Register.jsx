@@ -16,9 +16,22 @@ export default function Register() {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
 
-  // 🔴 ADDED: Password match check
+  // Password validation function
+  const isValidPassword = (password) => {
+    const minLength = password.length >= 8;
+    const hasUppercase = /[A-Z]/.test(password);
+    const hasLowercase = /[a-z]/.test(password);
+    const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(password);
+
+    return minLength && hasUppercase && hasLowercase && hasSpecialChar;
+  };
+
+
+  // Password rule checks
+  const isPasswordStrong = isValidPassword(password);
   const isPasswordMismatch =
     confirmPassword.length > 0 && password !== confirmPassword;
+
 
 
   const handleSubmit = async (e) => {
@@ -105,6 +118,13 @@ export default function Register() {
           </p>
         )}
 
+        {!isPasswordStrong && (
+          <p className="error">
+            Password  must contain a small case, a large case and
+            a special character and length should be in more then 8 charachters.
+          </p>
+        )}
+
         <div className="reg-footer auth-footer">
           <span>Already have an account?</span>
           <Link to="/login" className="auth-link">
@@ -112,7 +132,7 @@ export default function Register() {
           </Link>
         </div>
 
-        <button type="submit" disabled={isPasswordMismatch}>
+        <button type="submit" disabled={!isPasswordStrong || isPasswordMismatch}>
           {loading ? "Creating..." : "Register"}
         </button>
       </form>
