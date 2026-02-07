@@ -62,7 +62,7 @@ export default function Dashboard() {
 
           <input
             type="text"
-            placeholder="Search users by name or username..."
+            placeholder="Search Courses by name or tags..."
             value={query}
             onChange={(e) => setQuery(e.target.value)}
           />
