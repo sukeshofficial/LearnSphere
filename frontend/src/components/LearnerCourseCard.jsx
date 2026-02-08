@@ -34,14 +34,22 @@ const LearnerCourseCard = ({ course, user, onAction }) => {
         action = "enroll";
     }
 
-    const imageUrl = course.image_url ? `http://localhost:5000${course.image_url}` : "https://via.placeholder.com/400x225?text=Course+Cover";
+    const placeholderImage = "https://via.placeholder.com/400x225?text=Image+Unavailable";
+    const imageUrl = course.image_url ? `http://localhost:5000${course.image_url}` : placeholderImage;
 
     return (
         <div className="learner-course-card">
             {isPaid && hasPurchased && <div className="paid-badge">Paid</div>}
 
             <div className="card-image-wrapper">
-                <img src={imageUrl} alt={course.title} className="course-cover" />
+                <img
+                    src={imageUrl}
+                    alt={course.title}
+                    className="course-cover"
+                    onError={(e) => {
+                        e.target.src = placeholderImage;
+                    }}
+                />
             </div>
 
             <div className="card-body">

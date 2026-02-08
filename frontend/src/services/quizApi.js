@@ -12,3 +12,6 @@ export const deleteQuestion = (questionId) => api.delete(`/api/quizzes/questions
 
 // Rewards
 export const setRewards = (quizId, rewards) => api.post(`/api/quizzes/${quizId}/rewards`, rewards);
+
+// Participation
+export const submitQuiz = (quizId, answers) => api.post(`/api/quizzes/${quizId}/submit`, { answers });

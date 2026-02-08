@@ -1,14 +1,41 @@
 import React from "react";
 import "../styles/contentArea.css";
 
+// Helper to detect YouTube URLs and convert them to embed format
+// YouTube does not allow direct playback via <video> tags.
+const getYouTubeEmbedUrl = (url) => {
+    if (!url) return null;
+    const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+    const match = url.match(regExp);
+    return (match && match[2].length === 11) ? `https://www.youtube.com/embed/${match[2]}` : null;
+};
+
 const ContentArea = ({ lesson }) => {
     if (!lesson) return <div className="no-lesson-selected">Select a lesson to start learning</div>;
 
     const renderContent = () => {
-        const fileUrl = lesson.content_url ? `http://localhost:5000${lesson.content_url}` : null;
+        const url = lesson.content_url || "";
+        const isAbsolute = url.startsWith("http://") || url.startsWith("https://");
+        const fileUrl = url ? (isAbsolute ? url : `http://localhost:5000${url}`) : null;
+
+        const youtubeEmbedUrl = getYouTubeEmbedUrl(fileUrl);
 
         switch (lesson.type) {
             case 'VIDEO':
+                if (youtubeEmbedUrl) {
+                    return (
+                        <div className="video-container">
+                            <iframe
+                                src={youtubeEmbedUrl}
+                                title={lesson.title}
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                allowFullScreen
+                                className="video-frame"
+                                style={{ width: '100%', aspectRatio: '16/9', border: 'none' }}
+                            />
+                        </div>
+                    );
+                }
                 return (
                     <div className="video-container">
                         {fileUrl ? (

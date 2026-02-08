@@ -9,7 +9,7 @@ import logo from "../assets/ForgeGrid.svg";
 import avatarPlaceholder from "../assets/avatar-placeholder.png";
 
 export default function Navbar() {
-  const { user, setUser } = useAuth();
+  const { user, setUser, stats } = useAuth();
   const navigate = useNavigate();
   const [menuOpen, setMenuOpen] = useState(false);
 
@@ -79,7 +79,15 @@ export default function Navbar() {
                   <img src={pencilIcon} alt="Edit profile" />
                 </span>
               </a>
-              <span className="user-name">{user?.name ?? "Guest"}</span>
+              <div className="user-info-stack">
+                <span className="user-name">{user?.name ?? "Guest"}</span>
+                {user && (
+                  <div className="user-points-badge">
+                    <span className="points-star">⭐</span>
+                    <span className="points-count">{stats?.total_points || 0} pts</span>
+                  </div>
+                )}
+              </div>
 
               {user ? (
                 <button className="logout-btn" onClick={handleLogout}>
