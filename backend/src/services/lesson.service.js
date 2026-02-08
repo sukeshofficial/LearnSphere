@@ -74,13 +74,13 @@ class LessonService {
         const query = `
       UPDATE lessons
       SET 
-        title = $1, 
-        type = $2, 
-        content_url = $3, 
-        duration_seconds = $4, 
-        allow_download = $5, 
-        description = $6, 
-        order_index = $7, 
+        title = COALESCE($1, title), 
+        type = COALESCE($2, type), 
+        content_url = COALESCE($3, content_url), 
+        duration_seconds = COALESCE($4, duration_seconds), 
+        allow_download = COALESCE($5, allow_download), 
+        description = COALESCE($6, description), 
+        order_index = COALESCE($7, order_index), 
         updated_at = now()
       WHERE id = $8
       RETURNING *;
