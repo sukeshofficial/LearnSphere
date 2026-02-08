@@ -1,5 +1,6 @@
 import { Router } from "express";
 import courseController from "../controllers/course.controller.js";
+import upload from "../middleware/upload.middleware.js";
 import { requireAuth, requireRole } from "../middleware/auth.middleware.js";
 
 const router = Router();
@@ -30,11 +31,11 @@ router.get("/:id", (req, res, next) => {
 });
 
 // Protected routes
-router.post("/", requireAuth, requireRole("admin", "instructor"), courseController.createCourse);
-router.put("/:id", requireAuth, courseController.updateCourse);
+router.post("/", requireAuth, requireRole("admin", "instructor"), upload.single("image"), courseController.createCourse);
+router.put("/:id", requireAuth, upload.single("image"), courseController.updateCourse);
 router.patch("/:id/publish", requireAuth, courseController.publishCourse);
 router.delete("/:id", requireAuth, courseController.deleteCourse);
-router.post("/:id/image", requireAuth, courseController.updateImage);
+router.post("/:id/image", requireAuth, upload.single("image"), courseController.updateImage);
 router.post("/:id/purchase", requireAuth, courseController.purchaseCourse);
 router.post("/:id/contact", requireAuth, courseController.contactAttendees);
 

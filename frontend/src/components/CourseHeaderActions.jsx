@@ -7,7 +7,8 @@ const CourseHeaderActions = ({
     onPreview,
     onNew,
     onInvite,
-    onContact
+    onContact,
+    isPreviewDisabled
 }) => {
     return (
         <div className="course-header-actions">
@@ -29,7 +30,13 @@ const CourseHeaderActions = ({
                         <span className="switch-slider round"></span>
                     </label>
                 </div>
-                <button className="action-btn preview-btn" onClick={onPreview}>Preview</button>
+                <button
+                    className="action-btn preview-btn"
+                    onClick={onPreview}
+                    disabled={isPreviewDisabled}
+                >
+                    Preview
+                </button>
             </div>
         </div>
     );

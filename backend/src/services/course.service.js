@@ -16,11 +16,11 @@ class CourseService {
         const query = `
       INSERT INTO courses (
         title, short_description, long_description, tags, 
-        visibility, access_rule, price_cents, created_by, is_published
+        visibility, access_rule, price_cents, created_by, is_published, image_url
       )
-      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, false)
+      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, false, $9)
       RETURNING id, title, short_description, tags, visibility, 
-                access_rule, price_cents, is_published, created_by, created_at;
+                access_rule, price_cents, is_published, created_by, created_at, image_url;
     `;
 
         const values = [
@@ -31,7 +31,8 @@ class CourseService {
             visibility,
             access_rule,
             price_cents || 0,
-            created_by
+            created_by,
+            courseData.image_url || null
         ];
 
         const { rows } = await pool.query(query, values);
@@ -44,7 +45,7 @@ class CourseService {
 
         let queryText = `
       SELECT c.id, c.title, c.short_description, c.tags, c.visibility, 
-             c.access_rule, c.price_cents, c.is_published, c.created_by, c.created_at, c.total_views,
+             c.access_rule, c.price_cents, c.is_published, c.created_by, c.created_at, c.total_views, c.image_url,
              COALESCE(avg_rating.rating, 0) as average_rating,
              COALESCE(avg_rating.count, 0) as review_count
       FROM courses c
@@ -180,8 +181,9 @@ class CourseService {
         const query = `
       UPDATE courses
       SET title = $1, short_description = $2, tags = $3, 
-          visibility = $4, access_rule = $5, price_cents = $6, updated_at = now()
-      WHERE id = $7
+          visibility = $4, access_rule = $5, price_cents = $6, 
+          image_url = COALESCE($7, image_url), updated_at = now()
+      WHERE id = $8
       RETURNING *;
     `;
 
@@ -192,6 +194,7 @@ class CourseService {
             visibility,
             access_rule,
             price_cents,
+            updateData.image_url || null,
             id
         ]);
 
