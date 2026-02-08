@@ -5,6 +5,7 @@ import CourseTabs from "../components/CourseTabs";
 import LessonsTable from "../components/LessonsTable";
 import LessonEditorModal from "../components/LessonEditorModal";
 import CourseImageUpload from "../components/CourseImageUpload";
+import TagInput from "../components/TagInput";
 import * as coursesApi from "../services/coursesApi";
 import * as lessonsApi from "../services/lessonsApi";
 import * as quizApi from "../services/quizApi";
@@ -73,15 +74,32 @@ const CourseEditPage = () => {
         }
     };
 
-    const handleSaveCourse = async (overrideFile = null) => {
-        if (!course.title) return;
+    const handleSaveCourse = async (override = null) => {
+        // override can be a File (legacy) or an object (new)
+        let overrideFile = null;
+        let overrideData = {};
+
+        if (override) {
+            if (override instanceof File) {
+                overrideFile = override;
+            } else if (typeof override === 'object' && override !== null) {
+                overrideData = override;
+            }
+        }
+
+        const currentCourse = { ...course, ...overrideData };
+
+        if (!currentCourse.title) return;
         try {
             const formData = new FormData();
-            formData.append("title", course.title);
-            formData.append("visibility", course.visibility);
-            formData.append("access_rule", course.access_rule || "OPEN");
-            formData.append("price_cents", course.price_cents || 0);
-            formData.append("long_description", course.long_description || "");
+            formData.append("title", currentCourse.title);
+            formData.append("visibility", currentCourse.visibility);
+            formData.append("access_rule", currentCourse.access_rule || "OPEN");
+            formData.append("price_cents", currentCourse.price_cents || 0);
+            formData.append("long_description", currentCourse.long_description || "");
+
+            // Serialize tags to JSON string for FormData
+            formData.append("tags", JSON.stringify(currentCourse.tags || []));
 
             const fileToUpload = overrideFile || imageFile;
             if (fileToUpload) {
@@ -137,6 +155,18 @@ const CourseEditPage = () => {
                             value={course.title}
                             onChange={e => setCourse({ ...course, title: e.target.value })}
                             onBlur={handleSaveCourse}
+                        />
+                    </div>
+
+                    <div className="form-group">
+                        <label className="field-label">Tags</label>
+                        <TagInput
+                            tags={course.tags || []}
+                            onChange={(newTags) => {
+                                setCourse(prev => ({ ...prev, tags: newTags }));
+                                handleSaveCourse({ tags: newTags });
+                            }}
+                            placeholder="Add generic tags (e.g. react, tailwind)..."
                         />
                     </div>
                 </div>

@@ -9,8 +9,19 @@ class CourseController {
                 return res.status(400).json({ error: errors[0] });
             }
 
+            // Parse tags if they come as a JSON string (from FormData)
+            let tags = req.body.tags;
+            if (typeof tags === 'string') {
+                try {
+                    tags = JSON.parse(tags);
+                } catch (e) {
+                    tags = []; // Fallback
+                }
+            }
+
             const courseData = {
                 ...req.body,
+                tags,
                 created_by: req.userId
             };
 
@@ -83,6 +94,18 @@ class CourseController {
 
             if (req.file) {
                 req.body.image_url = `/uploads/${req.file.filename}`;
+            }
+
+            // Parse tags if they come as a JSON string (from FormData)
+            if (typeof req.body.tags === 'string') {
+                try {
+                    req.body.tags = JSON.parse(req.body.tags);
+                } catch (e) {
+                    // keep as is or set to empty array?
+                    // if it fails parsing, it might refer to a single tag string?
+                    // safer to default to array if we expect array
+                    req.body.tags = [];
+                }
             }
 
             const updatedCourse = await courseService.updateCourse(id, req.body);

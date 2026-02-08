@@ -47,9 +47,9 @@
 }
 
 .back-btn {
-    padding: 0.75rem 1.5rem;
-    background-color: #6366f1;
-    color: white;
+    padding: 0.75rem 1rem;
+    background-color: #b6ffd455;
+    color: rgb(1, 97, 4);
     border-radius: 8px;
     text-decoration: none;
     font-weight: 600;
@@ -57,5 +57,6 @@
 }
 
 .back-btn:hover {
-    background-color: #4f46e5;
+    background-color: #b6ffd455;
+    color: rgb(1, 97, 4);
 }
