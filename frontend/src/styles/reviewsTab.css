@@ -1,0 +1,25 @@
+.reviews-tab {
+    padding: 2rem;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.reviews-header {
+    margin-bottom: 2rem;
+    border-bottom: 1px solid #e2e8f0;
+    padding-bottom: 1.5rem;
+}
+
+.reviews-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.no-reviews {
+    text-align: center;
+    padding: 3rem;
+    color: #64748b;
+    background: #f8fafc;
+    border-radius: 12px;
+}

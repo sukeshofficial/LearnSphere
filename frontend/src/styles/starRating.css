@@ -1,0 +1,95 @@
+.star-row {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+}
+
+.star-icon {
+    color: #e2e8f0;
+    /* Empty star color */
+    font-size: 1.25rem;
+}
+
+.star-icon.filled {
+    color: #fbbf24;
+    /* Filled star color */
+}
+
+.star-icon.half {
+    position: relative;
+    color: #e2e8f0;
+}
+
+.star-icon.half::before {
+    content: "\2605";
+    /* Star character */
+    position: absolute;
+    left: 0;
+    width: 50%;
+    overflow: hidden;
+    color: #fbbf24;
+}
+
+/* For interactive rating input */
+.star-input {
+    cursor: pointer;
+    transition: transform 0.1s;
+}
+
+.star-input:hover {
+    transform: scale(1.1);
+}
+
+.rating-summary-card {
+    background: #f8fafc;
+    padding: 1.5rem;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.rating-large {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.rating-number {
+    font-size: 3rem;
+    font-weight: 800;
+    color: #1e293b;
+    line-height: 1;
+}
+
+.rating-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.rating-count {
+    color: #64748b;
+    font-size: 0.875rem;
+    font-weight: 500;
+}
+
+.add-review-btn {
+    background: #4f46e5;
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.add-review-btn:hover {
+    background: #4338ca;
+}
+
+.add-review-btn:disabled {
+    background: #cbd5e1;
+    cursor: not-allowed;
+}
