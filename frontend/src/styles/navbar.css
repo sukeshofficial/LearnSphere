@@ -46,6 +46,7 @@
   font-size: 1.1rem;
   background: linear-gradient(120deg, #fff, #b992ff);
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
@@ -124,9 +125,35 @@
   border: 1px solid rgba(255, 255, 255, 0.12);
 }
 
+.user-info-stack {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 2px;
+}
+
+.user-points-badge {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: rgba(185, 146, 255, 0.15);
+  border: 1px solid rgba(185, 146, 255, 0.3);
+  padding: 1px 8px;
+  border-radius: 20px;
+  font-size: 0.6rem;
+  font-weight: 700;
+  color: #d1b9ff;
+  width: fit-content;
+}
+
+.points-star {
+  font-size: 0.65rem;
+}
+
 .user-name {
   color: #fff;
-  font-size: 0.65rem;
+  font-size: 0.7rem;
+  font-weight: 600;
   max-width: 140px;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -317,6 +344,7 @@
   .mobile-menu {
     display: none;
   }
+
   .menu-overlay {
     display: none;
   }

@@ -9,7 +9,7 @@ import tickIcon from "../assets/check-small.svg";
 import failIcon from "../assets/fail-small.svg";
 
 const UserCoursesPage = () => {
-    const { user } = useAuth();
+    const { user, enrolledCourseIds, fetchEnrollments } = useAuth();
     const [courses, setCourses] = useState([]);
     const [loading, setLoading] = useState(true);
     const [searchQuery, setSearchQuery] = useState("");
@@ -44,19 +44,23 @@ const UserCoursesPage = () => {
         if (success) {
             showToast("success", message || "Successfully enrolled!");
             // Optimistically update the course state to "enrolled"
+            // Optimistically update the course state to "enrolled"
+            // fetchEnrollments() will also update the global state
+            fetchEnrollments();
             setCourses(prevCourses =>
                 prevCourses.map(course =>
                     course.id === courseId ? { ...course, is_enrolled: true } : course
                 )
             );
-            // Optionally fetch again to ensure consistency, but optimistic update handles the UI check
-            // fetchCourses(); 
         } else {
             showToast("error", message || "Enrollment failed.");
         }
     };
 
-    const filteredCourses = courses.filter(course =>
+    const filteredCourses = courses.map(course => ({
+        ...course,
+        is_enrolled: enrolledCourseIds.includes(course.id)
+    })).filter(course =>
         course.title.toLowerCase().includes(searchQuery.toLowerCase())
     );
 

@@ -3,8 +3,10 @@ import { useParams, Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/useAuth";
 import * as coursesApi from "../services/coursesApi";
 import * as learnerApi from "../services/learnerApi";
+import * as quizApi from "../services/quizApi";
 import LessonSidebar from "../components/LessonSidebar";
 import ContentArea from "../components/ContentArea";
+import QuizPlayer from "../components/QuizPlayer";
 import "../styles/coursePlayer.css";
 
 const CoursePlayerPage = () => {
@@ -14,7 +16,9 @@ const CoursePlayerPage = () => {
 
     const [course, setCourse] = useState(null);
     const [lessons, setLessons] = useState([]);
+    const [quizzes, setQuizzes] = useState([]);
     const [activeLesson, setActiveLesson] = useState(null);
+    const [activeQuiz, setActiveQuiz] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [isEnrolled, setIsEnrolled] = useState(false);
@@ -48,6 +52,15 @@ const CoursePlayerPage = () => {
                 const lessonsRes = await coursesApi.getLessonsByCourse(courseId);
                 const lessonData = lessonsRes.data.lessons || [];
                 setLessons(lessonData);
+
+                // 4. Fetch Quizzes
+                try {
+                    const quizzesRes = await quizApi.getQuizzesByCourse(courseId);
+                    setQuizzes(quizzesRes.data || []);
+                } catch (qErr) {
+                    console.error("Error fetching quizzes:", qErr);
+                    // Quizzes might not exist or API failure shouldn't block lessons
+                }
 
                 if (lessonData.length > 0) {
                     setActiveLesson(lessonData[0]);
@@ -94,11 +107,26 @@ const CoursePlayerPage = () => {
             <LessonSidebar
                 lessons={lessons}
                 activeLessonId={activeLesson?.id}
-                onLessonSelect={setActiveLesson}
+                onLessonSelect={(lesson) => {
+                    setActiveLesson(lesson);
+                    setActiveQuiz(null);
+                }}
+                quizzes={quizzes}
+                activeQuizId={activeQuiz?.id}
+                onQuizSelect={(quiz) => {
+                    setActiveQuiz(quiz);
+                    setActiveLesson(null);
+                }}
                 courseTitle={course?.title}
             />
             <main className="player-main-content">
-                <ContentArea lesson={activeLesson} />
+                {activeLesson ? (
+                    <ContentArea lesson={activeLesson} />
+                ) : activeQuiz ? (
+                    <QuizPlayer quizId={activeQuiz.id} />
+                ) : (
+                    <div className="no-content-selected">Select a lesson or quiz to start</div>
+                )}
             </main>
         </div>
     );

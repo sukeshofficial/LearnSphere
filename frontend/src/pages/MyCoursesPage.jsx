@@ -25,23 +25,36 @@ const MyCoursesPage = () => {
             let courseItems = coursesRes.data.items || [];
 
             if (user) {
-                const [statsRes, enrollRes] = await Promise.all([
-                    learnerApi.getLearnerStats(),
-                    learnerApi.getMyEnrollments()
-                ]);
+                // Safeguard course loading: Fetch enrollments separately from stats.
+                // One failing API call (like stats 404) must not block the entire feature.
+                try {
+                    const enrollRes = await learnerApi.getMyEnrollments();
+                    const enrollMap = (enrollRes.data.enrollments || []).reduce((acc, e) => {
+                        acc[e.course_id] = e;
+                        return acc;
+                    }, {});
 
-                setStats(statsRes.data);
+                    courseItems = courseItems.map(c => ({
+                        ...c,
+                        user_enrollment_status: enrollMap[c.id]?.status || null,
+                        progress_percent: 0
+                    }));
+                } catch (enrollErr) {
+                    console.error("Error fetching enrollments:", enrollErr);
+                }
 
-                const enrollMap = (enrollRes.data.enrollments || []).reduce((acc, e) => {
-                    acc[e.course_id] = e;
-                    return acc;
-                }, {});
-
-                courseItems = courseItems.map(c => ({
-                    ...c,
-                    user_enrollment_status: enrollMap[c.id]?.status || null,
-                    progress_percent: 0
-                }));
+                try {
+                    // stats API is guarded with try/catch and fallback values because
+                    // it may not be implemented on the backend yet (GET /api/progress/users/me/stats -> 404).
+                    const statsRes = await learnerApi.getLearnerStats();
+                    setStats(statsRes.data);
+                } catch (statsErr) {
+                    console.warn("Stats API failed, using fallback:", statsErr.message);
+                    setStats({
+                        total_points: 0,
+                        current_badge: "Newbie"
+                    });
+                }
             }
 
             setCourses(courseItems);
