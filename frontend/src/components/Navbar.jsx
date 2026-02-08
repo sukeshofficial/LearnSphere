@@ -37,7 +37,7 @@ export default function Navbar() {
     { label: "Dashboard", to: "/" },
     { label: "Courses", to: "/courses" },
     { label: "Reporting", to: "/reporting" },
-    { label: "Settings", to: "/settings" },
+    { label: "Settings", to: "/profile" },
   ];
 
   return (

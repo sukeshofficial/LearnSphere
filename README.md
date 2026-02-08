@@ -1,3 +1,23 @@
+## OUTPUTS:
+1. Organizer/Admin/Backend View
+![Dashboard Admin](../odoo-final/frontend/src/outputs/image.png)
+![Courses](../odoo-final/frontend/src/outputs/image-2.png)
+![Course Lesson](../odoo-final/frontend/src/outputs/image-3.png)
+![course content](../odoo-final/frontend/src/outputs/image-4.png)
+![Lesson Form](../odoo-final/frontend/src/outputs/image-5.png)
+![preview](../odoo-final/frontend/src/outputs/image-6.png)
+![edit quiz](../odoo-final/frontend/src/outputs/image-14.png)
+![reward](../odoo-final/frontend/src/outputs/image-15.png)
+![report](../odoo-final/frontend/src/outputs/image-7.png)
+![settings](../odoo-final/frontend/src/outputs/image-8.png)
+![share profile](../odoo-final/frontend/src/outputs/image-9.png)
+![delete account](../odoo-final/frontend/src/outputs/image-10.png)
+
+2. Participant/ Portal/ Front-End View
+![Courses](../odoo-final/frontend/src/outputs/image-11.png)
+![Course full view](../odoo-final/frontend/src/outputs/image-13.png)
+![edit progile](../odoo-final/frontend/src/outputs/image-16.png)
+
 ## Clone the Repository
 
 ```bash
