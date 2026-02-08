@@ -12,4 +12,4 @@ export const publishCourse = (id, is_published) => api.patch(`/api/courses/${id}
 
 export const deleteCourse = (id) => api.delete(`/api/courses/${id}`);
 
-export const getLessonsByCourse = (courseId) => api.get(`/api/courses/${courseId}/lessons`);
+export const getLessonsByCourse = (courseId) => api.get(`/api/lessons/course/${courseId}`);

@@ -4,24 +4,26 @@ import { requireAuth, requireRole } from "../middleware/auth.middleware.js";
 
 const router = Router();
 
-router.post("/quizzes", requireAuth, requireRole("admin", "instructor"), quizController.createQuiz);
-router.put("/quizzes/:id", requireAuth, requireRole("admin", "instructor"), quizController.updateQuiz);
+router.post("/", requireAuth, requireRole("admin", "instructor"), quizController.createQuiz);
+router.put("/:id", requireAuth, requireRole("admin", "instructor"), quizController.updateQuiz);
 
 // Questions
-router.post("/quizzes/:quizId/questions", requireAuth, requireRole("admin", "instructor"), quizController.addQuestion);
-router.put("/quizzes/questions/:id", requireAuth, requireRole("admin", "instructor"), quizController.updateQuestion);
-router.delete("/quizzes/questions/:id", requireAuth, requireRole("admin", "instructor"), quizController.deleteQuestion);
+router.post("/:quizId/questions", requireAuth, requireRole("admin", "instructor"), quizController.addQuestion);
+router.put("/questions/:id", requireAuth, requireRole("admin", "instructor"), quizController.updateQuestion);
+router.delete("/questions/:id", requireAuth, requireRole("admin", "instructor"), quizController.deleteQuestion);
 
 // Set Rewards
-router.post("/quizzes/:quizId/rewards", requireAuth, requireRole("admin", "instructor"), quizController.setRewards);
+// Set Rewards
+router.post("/:quizId/rewards", requireAuth, requireRole("admin", "instructor"), quizController.setRewards);
 
 // Get Quiz Details (for taking the quiz)
-router.get("/quizzes/:id", requireAuth, quizController.getQuiz);
+// Get Quiz Details (for taking the quiz)
+router.get("/:id", requireAuth, quizController.getQuiz);
 
 // Submit Quiz Attempt
-router.post("/quizzes/:id/submit", requireAuth, quizController.submitQuiz);
+router.post("/:id/submit", requireAuth, quizController.submitQuiz);
 
-// Get Quizzes by Course
-router.get("/courses/:courseId/quizzes", requireAuth, quizController.getQuizzesByCourse);
+// Get Quizzes by Course (GET /api/quizzes/course/:courseId)
+router.get("/course/:courseId", requireAuth, quizController.getQuizzesByCourse);
 
 export default router;

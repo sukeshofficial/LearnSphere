@@ -1,6 +1,6 @@
 import api from "../api/api";
 
-export const getQuizzesByCourse = (courseId) => api.get(`/api/courses/${courseId}/quizzes`);
+export const getQuizzesByCourse = (courseId) => api.get(`/api/quizzes/course/${courseId}`);
 export const createQuiz = (courseId, title) => api.post("/api/quizzes", { courseId, title });
 export const updateQuiz = (quizId, title) => api.put(`/api/quizzes/${quizId}`, { title });
 export const getQuizFull = (quizId) => api.get(`/api/quizzes/${quizId}`);

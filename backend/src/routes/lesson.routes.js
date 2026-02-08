@@ -5,10 +5,11 @@ import { requireAuth, requireRole } from "../middleware/auth.middleware.js";
 const router = Router();
 
 // Route with courseId in path
-router.post("/courses/:courseId/lessons", requireAuth, requireRole("admin", "instructor"), lessonController.createLesson);
+// Create lesson (POST /api/lessons/:courseId)
+router.post("/:courseId", requireAuth, requireRole("admin", "instructor"), lessonController.createLesson);
 
-// Visibility respects course rules
-router.get("/courses/:courseId/lessons", (req, res, next) => {
+// List lessons for course (GET /api/lessons/course/:courseId)
+router.get("/course/:courseId", (req, res, next) => {
     const token = req.cookies.token;
     if (token) {
         requireAuth(req, res, () => {
@@ -19,16 +20,13 @@ router.get("/courses/:courseId/lessons", (req, res, next) => {
     }
 });
 
-// Single lesson routes
-router.put("/lessons/:id", requireAuth, lessonController.updateLesson);
-router.delete("/lessons/:id", requireAuth, lessonController.deleteLesson);
+// Single lesson routes (GET /api/lessons/:id, etc.)
+router.put("/:id", requireAuth, lessonController.updateLesson);
+router.delete("/:id", requireAuth, lessonController.deleteLesson);
 
-// Attachment routes
-router.get("/lessons/:lessonId/attachments", (req, res, next) => {
-    // Public view if course is public, handled in service/controller
-    lessonController.getAttachments(req, res);
-});
-router.post("/lessons/:lessonId/attachments", requireAuth, requireRole("admin", "instructor"), lessonController.addAttachment);
+// Attachment routes (GET /api/lessons/:lessonId/attachments)
+router.get("/:lessonId/attachments", lessonController.getAttachments);
+router.post("/:lessonId/attachments", requireAuth, requireRole("admin", "instructor"), lessonController.addAttachment);
 router.delete("/attachments/:id", requireAuth, lessonController.deleteAttachment);
 
 export default router;

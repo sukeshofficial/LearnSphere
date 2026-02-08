@@ -57,7 +57,7 @@ const ReportingPage = () => {
     return (
         <div className="reporting-container">
             <div className="reporting-header">
-                <h1>Learning Dashboard</h1>
+                <h1>Reporting Dashboard</h1>
             </div>
 
             <OverviewCards

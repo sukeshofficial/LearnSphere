@@ -4,7 +4,7 @@ import { requireAuth } from "../middleware/auth.middleware.js";
 
 const router = Router();
 
-router.post("/upload", requireAuth, upload.single("file"), (req, res) => {
+router.post("/", requireAuth, upload.single("file"), (req, res) => {
     try {
         if (!req.file) {
             return res.status(400).json({ error: "No file uploaded" });

@@ -42,13 +42,13 @@ app.use("/uploads", express.static("uploads"));
 app.use("/api/profile", profileRoutes);
 app.use("/api/users", usersRoutes);
 app.use("/api/courses", courseRoutes);
-app.use("/api", lessonRoutes); // Prefixed with /api, routes handle nested paths
-app.use("/api", enrollmentRoutes);
-app.use("/api", reviewRoutes);
-app.use("/api", progressRoutes);
-app.use("/api", quizRoutes);
-app.use("/api", reportingRoutes);
-app.use("/api", uploadRoutes);
+app.use("/api/lessons", lessonRoutes);
+app.use("/api/enrollments", enrollmentRoutes);
+app.use("/api/reviews", reviewRoutes);
+app.use("/api/progress", progressRoutes);
+app.use("/api/quizzes", quizRoutes);
+app.use("/api/reporting", reportingRoutes);
+app.use("/api/uploads", uploadRoutes);
 
 // test route
 app.get("/api/health", (req, res) => {
