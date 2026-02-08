@@ -7,7 +7,8 @@ const UserCourseCard = ({ course, user, onEnrollmentResult }) => {
     const navigate = useNavigate();
     const isEnrolled = course.is_enrolled || false;
 
-    const handleJoin = async () => {
+    const handleJoin = async (e) => {
+        e?.stopPropagation();
         try {
             if (!user) {
                 navigate("/login");
@@ -36,7 +37,8 @@ const UserCourseCard = ({ course, user, onEnrollmentResult }) => {
         }
     };
 
-    const handleContinue = () => {
+    const handleContinue = (e) => {
+        e?.stopPropagation();
         navigate(`/courses/${course.id}/learn`);
     };
 
@@ -70,7 +72,7 @@ const UserCourseCard = ({ course, user, onEnrollmentResult }) => {
 
                 <div className="card-actions">
                     {!user ? (
-                        <button className="card-action-btn btn-login" onClick={() => navigate("/login")}>
+                        <button className="card-action-btn btn-login" onClick={(e) => { e.stopPropagation(); navigate("/login"); }}>
                             Login to continue
                         </button>
                     ) : isEnrolled ? (

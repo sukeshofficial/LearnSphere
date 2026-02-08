@@ -19,10 +19,23 @@
     margin: 0;
 }
 
-.lesson-list {
+.sidebar-scroll-area {
     flex: 1;
     overflow-y: auto;
     padding: 0.5rem 0;
+}
+
+.section-title {
+    padding: 1.5rem 1.5rem 0.5rem;
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #94a3b8;
+}
+
+.lesson-list {
+    padding-bottom: 0.5rem;
 }
 
 .lesson-item {
