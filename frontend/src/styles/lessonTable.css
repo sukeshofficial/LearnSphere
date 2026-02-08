@@ -2,7 +2,8 @@
   background: white;
   border-radius: 20px;
   border: 1px solid #f1f5f9;
-  overflow: hidden;
+  /* Changed from hidden to visible so dropdown is not clipped in last row */
+  overflow: visible;
 }
 
 .lesson-table {
@@ -26,6 +27,7 @@
   color: #1e293b;
   font-weight: 500;
   border-bottom: 1px solid #f1f5f9;
+  vertical-align: middle;
 }
 
 .lesson-row:hover {
@@ -47,8 +49,14 @@
   font-size: 1.5rem;
   color: #94a3b8;
   cursor: pointer;
-  padding: 0.5rem;
+  padding: 0;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   border-radius: 8px;
+  line-height: 1;
   transition: all 0.2s;
 }
 

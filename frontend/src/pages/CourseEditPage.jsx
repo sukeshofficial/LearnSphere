@@ -4,6 +4,7 @@ import CourseHeaderActions from "../components/CourseHeaderActions";
 import CourseTabs from "../components/CourseTabs";
 import LessonsTable from "../components/LessonsTable";
 import LessonEditorModal from "../components/LessonEditorModal";
+import CourseImageUpload from "../components/CourseImageUpload";
 import * as coursesApi from "../services/coursesApi";
 import * as lessonsApi from "../services/lessonsApi";
 import * as quizApi from "../services/quizApi";
@@ -22,6 +23,7 @@ const CourseEditPage = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [editingLesson, setEditingLesson] = useState(null);
     const [quizzes, setQuizzes] = useState([]);
+    const [imageFile, setImageFile] = useState(null);
 
     useEffect(() => {
         if (id && id !== 'new') {
@@ -71,14 +73,31 @@ const CourseEditPage = () => {
         }
     };
 
-    const handleSaveCourse = async () => {
+    const handleSaveCourse = async (overrideFile = null) => {
         if (!course.title) return;
         try {
+            const formData = new FormData();
+            formData.append("title", course.title);
+            formData.append("visibility", course.visibility);
+            formData.append("access_rule", course.access_rule || "OPEN");
+            formData.append("price_cents", course.price_cents || 0);
+            formData.append("long_description", course.long_description || "");
+
+            const fileToUpload = overrideFile || imageFile;
+            if (fileToUpload) {
+                formData.append("image", fileToUpload);
+            }
+
             if (id && id !== 'new') {
-                await coursesApi.updateCourse(id, course);
+                const resp = await coursesApi.updateCourse(id, formData);
+                setCourse(resp.data.course || resp.data);
+                setImageFile(null); // Clear after upload
             } else {
-                const resp = await coursesApi.createCourse(course);
-                navigate(`/courses/${resp.data.id}/edit`, { replace: true });
+                const resp = await coursesApi.createCourse(formData);
+                const newCourse = resp.data.course || resp.data;
+                setCourse(newCourse);
+                setImageFile(null); // Clear after upload
+                navigate(`/courses/${newCourse.id}/edit`, { replace: true });
             }
         } catch (err) {
             console.error("Save course error:", err);
@@ -101,10 +120,11 @@ const CourseEditPage = () => {
             <CourseHeaderActions
                 isPublished={course.is_published}
                 onPublishToggle={handlePublishToggle}
-                onPreview={() => window.open(`/courses/${id}`, '_blank')}
+                onPreview={() => navigate(`/courses/${course.id || id}`)}
                 onNew={() => navigate('/courses/new')}
                 onInvite={() => alert("Invite logic here")}
                 onContact={() => alert("Contact logic here")}
+                isPreviewDisabled={!course.id || course.id === 'new'}
             />
 
             <div className="course-main-fields">
@@ -121,16 +141,17 @@ const CourseEditPage = () => {
                     </div>
                 </div>
                 <div className="image-column">
-                    <div className="image-upload-box">
-                        {course.image_url ? (
-                            <img src={course.image_url} alt="Course" className="image-preview" />
-                        ) : (
-                            <>
-                                <span className="upload-icon">📷</span>
-                                <span className="upload-text">Course Image</span>
-                            </>
-                        )}
-                    </div>
+                    <CourseImageUpload
+                        initialImage={course.image_url ? `http://localhost:5000${course.image_url}` : null}
+                        onFileSelect={async (file) => {
+                            setImageFile(file);
+                            // Set a temporary preview in state if needed, but the upload component handles its own preview.
+                            // We need to trigger save with the NEW file specifically.
+                            // The current handleSaveCourse uses imageFile from state, but that state might not be updated yet.
+                            // Let's modify handleSaveCourse to optionally accept a file.
+                            handleSaveCourse(file);
+                        }}
+                    />
                 </div>
             </div>
 
@@ -188,7 +209,7 @@ const CourseEditPage = () => {
                     {activeTab === "quiz" && (
                         <div className="quiz-tab-content">
                             <div className="quiz-list-table-container">
-                                <table className="lessons-table">
+                                <table className="lesson-table">
                                     <thead>
                                         <tr>
                                             <th>Content Title</th>

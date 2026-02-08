@@ -9,11 +9,17 @@ const LessonSidebar = ({
     courseTitle,
     quizzes = [],
     activeQuizId = null,
-    onQuizSelect
+    onQuizSelect,
+    onBackToEditor
 }) => {
     return (
         <aside className="player-sidebar">
             <div className="sidebar-header">
+                {onBackToEditor && (
+                    <button className="back-to-editor-btn" onClick={onBackToEditor}>
+                        ← Back to Editor
+                    </button>
+                )}
                 <h2>{courseTitle}</h2>
             </div>
             <div className="sidebar-scroll-area">
