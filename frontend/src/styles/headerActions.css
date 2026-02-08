@@ -5,7 +5,8 @@
   margin-bottom: 2rem;
 }
 
-.left-actions, .right-actions {
+.left-actions,
+.right-actions {
   display: flex;
   gap: 1rem;
   align-items: center;
@@ -26,6 +27,14 @@
 .action-btn:hover {
   background: #f8fafc;
   border-color: #cbd5e1;
+}
+
+.action-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  background: #f1f5f9;
+  border-color: #e2e8f0;
+  color: #94a3b8;
 }
 
 .action-btn.new-mode {
@@ -92,11 +101,11 @@
   transition: .4s;
 }
 
-.switch-input:checked + .switch-slider {
+.switch-input:checked+.switch-slider {
   background-color: #10b981;
 }
 
-.switch-input:checked + .switch-slider:before {
+.switch-input:checked+.switch-slider:before {
   transform: translateX(24px);
 }
 

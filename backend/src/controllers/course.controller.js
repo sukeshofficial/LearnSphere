@@ -14,6 +14,10 @@ class CourseController {
                 created_by: req.userId
             };
 
+            if (req.file) {
+                courseData.image_url = `/uploads/${req.file.filename}`;
+            }
+
             const course = await courseService.createCourse(courseData);
             return res.status(201).json(course);
         } catch (error) {
@@ -77,9 +81,8 @@ class CourseController {
                 return res.status(403).json({ error: "Not authorized to update this course" });
             }
 
-            const { valid, errors } = validateCourseInput(req.body);
-            if (!valid) {
-                return res.status(400).json({ error: errors[0] });
+            if (req.file) {
+                req.body.image_url = `/uploads/${req.file.filename}`;
             }
 
             const updatedCourse = await courseService.updateCourse(id, req.body);
@@ -146,10 +149,15 @@ class CourseController {
     updateImage = async (req, res) => {
         try {
             const { id } = req.params;
-            const { image_url } = req.body;
-            if (!image_url) return res.status(400).json({ error: "image_url is required" });
+            let imageUrl = req.body.image_url;
 
-            const result = await courseService.updateCourseImage(id, image_url);
+            if (req.file) {
+                imageUrl = `/uploads/${req.file.filename}`;
+            }
+
+            if (!imageUrl) return res.status(400).json({ error: "image_url or file is required" });
+
+            const result = await courseService.updateCourseImage(id, imageUrl);
             return res.status(200).json(result);
         } catch (error) {
             console.error("Update Image Error:", error);

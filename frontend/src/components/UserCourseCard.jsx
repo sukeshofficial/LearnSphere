@@ -42,20 +42,18 @@ const UserCourseCard = ({ course, user, onEnrollmentResult }) => {
         navigate(`/courses/${course.id}/learn`);
     };
 
+    const placeholderImage = "https://via.placeholder.com/400x225?text=Image+Unavailable";
+    const imageUrl = course.image_url ? `http://localhost:5000${course.image_url}` : placeholderImage;
+
     return (
         <div className="user-course-card">
             <div className="card-image-container">
-                {course.cover_image ? (
-                    <img
-                        src={`http://localhost:5000${course.cover_image}`}
-                        alt={course.title}
-                        className="card-course-img"
-                    />
-                ) : (
-                    <div className="card-placeholder">
-                        <span>No Image Available</span>
-                    </div>
-                )}
+                <img
+                    src={imageUrl}
+                    alt={course.title}
+                    className="card-course-img"
+                    onError={(e) => { e.target.src = placeholderImage; }}
+                />
             </div>
 
             <div className="card-content">

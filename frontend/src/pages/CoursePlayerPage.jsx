@@ -14,6 +14,9 @@ const CoursePlayerPage = () => {
     const { user } = useAuth();
     const navigate = useNavigate();
 
+    const userRole = (user?.role || "").toLowerCase();
+    const isPrivileged = userRole === 'admin' || userRole === 'instructor' || user?.is_super_admin;
+
     const [course, setCourse] = useState(null);
     const [lessons, setLessons] = useState([]);
     const [quizzes, setQuizzes] = useState([]);
@@ -37,11 +40,21 @@ const CoursePlayerPage = () => {
                 const enrollments = enrollRes.data.enrollments || [];
                 const enrollment = enrollments.find(e => e.course_id === courseId);
 
-                if (!enrollment || enrollment.status === 'INVITED') {
+                const userRole = (user?.role || "").toLowerCase();
+                const isPrivileged = userRole === 'admin' || userRole === 'instructor' || user?.is_super_admin;
+
+                if (!enrollment && !isPrivileged) {
                     setIsEnrolled(false);
                     setLoading(false);
                     return;
                 }
+
+                if (enrollment?.status === 'INVITED' && !isPrivileged) {
+                    setIsEnrolled(false);
+                    setLoading(false);
+                    return;
+                }
+
                 setIsEnrolled(true);
 
                 // 3. Fetch Lessons
@@ -118,6 +131,7 @@ const CoursePlayerPage = () => {
                     setActiveLesson(null);
                 }}
                 courseTitle={course?.title}
+                onBackToEditor={isPrivileged ? () => navigate(`/courses/${courseId}/edit`) : null}
             />
             <main className="player-main-content">
                 {activeLesson ? (
